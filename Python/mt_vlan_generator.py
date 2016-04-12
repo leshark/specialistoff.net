@@ -8,7 +8,7 @@ __email__ = 'remizoffalex@mail.ru'
 
 '''
 Генератор команд для MikroTik
-Для тех, у кого много VLAN
+Для тех, у кого много VLAN + нарезка скорости 3М
 
 Пример применения шаблонов
 '''
@@ -21,7 +21,9 @@ from jinja2 import Template
 templates = """/interface vlan
 add interface=bridge-local name=vlan{{ item['id'] }} vlan-id={{ item['id'] }}
 /ip address
-add interface=vlan70 address={{ item['ip'] }}/24
+add interface=vlan{{ item['id'] }} address={{ item['ip'] }}/24
+/queue simple
+add max-limit=3M/3M name=queue{{ item['id'] }} target=vlan{{ item['id'] }}
 
 """
 

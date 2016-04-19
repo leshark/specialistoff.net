@@ -13,22 +13,23 @@ pip3 install rrdtool psutil
 import os
 import time
 import rrdtool
-# Библиотека получения информации о нагрузке системы
-import psutil
+import subprocess
 
 fname = 'database.rrd'  
+
+ip = '8.8.8.8'
 
 if not os.path.isfile(fname):
     rrdtool.create(
         fname,
         # шаг 300с — данные, хранимые в БД будут привязаны к «сетке», шагом в пять минут
-        "--step", "5s",
+        "--step", "10s",
         # Источник
         # cpu - название источника
         # type - GAUGE
         # heartbeat - 5m
         # min, max - предельные значения
-        'DS:cpu:GAUGE:1m:0:100',
+        'DS:ping:GAUGE:1m:0:65535',
         # описываем какие отчёты хотим хранить в БД. 
         # последние 48 часов, каждые 5 мин
         # 0.5 - xff
@@ -37,26 +38,37 @@ if not os.path.isfile(fname):
         'RRA:MAX:0.5:1m:2d'
         )
 
+def getping(IP):
+    result = False
+    p = subprocess.Popen(["/bin/fping", "-e", IP], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output,error = p.communicate()
+    val = output.decode("utf-8").split(" ")
+    if val[2] == "alive":
+        result = val[3][1:]
+    return result
+
 while True:
-    val = psutil.cpu_percent(interval=1)
+
+    val = getping(ip)
     print(val)
 
-    rrdtool.update(fname, '-t', 'cpu', 'N:' + str(val))
+    if val:
+        rrdtool.update(fname, '-t', 'ping', 'N:' + str(val))
 
 
     rrdtool.graph( 'graph.png',
         # За какой период показать график: 30 минут
-        "--start", "-1d",
-        "--title", "CPU",
+        "--start", "-1h",
+        "--title", "Ping",
         "--disable-rrdtool-tag",
         "--imgformat" , "PNG" ,
         # "--vertical-label=CPU",
         "--watermark", "http://SpecialistOff.NET/ from http://RemiZOffAlex/",
         "-w 800",  "-h 300",
-        "DEF:valcpu1=" + fname + ":cpu:AVERAGE",
-        "DEF:valcpu2=" + fname + ":cpu:MAX",
+        "DEF:valping1=" + fname + ":ping:AVERAGE",
+        "DEF:valping2=" + fname + ":ping:MAX",
         # Заливка области
-        "AREA:valcpu1#00FF00:CPU среднее",
-        "LINE1:valcpu2#FF0000:CPU максимальное")
+        "AREA:valping1#00FF00:Время ответа среднее",
+        "LINE1:valping2#FF0000:Время ответа максимальное")
 
-    time.sleep(3)
+    time.sleep(10)

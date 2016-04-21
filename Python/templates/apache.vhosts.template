@@ -1,0 +1,13 @@
+<VirtualHost *:8080>
+    ServerAdmin info@{{ domain }}
+    DocumentRoot "/home/{{ user }}/{{ domain }}"
+    ServerName {{ domain }}
+    ServerAlias www.{{ domain }}
+    ErrorLog "/var/log/httpd/domains/{{ domain }}-error.log"
+    CustomLog "/var/log/httpd/domains/{{ domain }}-access.log" common
+    AcceptPathInfo On
+    <Directory /home/{{ user }}/{{ domain }}>
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

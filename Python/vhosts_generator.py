@@ -14,23 +14,11 @@ __email__ = 'remizoffalex@mail.ru'
 import os
 import sys
 
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 
 
-template = """<VirtualHost *:8080>
-    ServerAdmin info@{{ domain }}
-    DocumentRoot "/home/{{ user }}/{{ domain }}"
-    ServerName {{ domain }}
-    ServerAlias www.{{ domain }}
-    ErrorLog "/var/log/httpd/domains/{{ domain }}-error.log"
-    CustomLog "/var/log/httpd/domains/{{ domain }}-access.log" common
-    AcceptPathInfo On
-    <Directory /home/{{ user }}/{{ domain }}>
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
-"""
+templatedir = os.path.dirname(os.path.abspath(__file__)) + "/templates"
+templates = ['apache.vhosts.template', 'nginx.vhosts.template']
 
 data = [{'user': 'viktor',
             'domains': ['sys-center.ru']},
@@ -42,6 +30,9 @@ data = [{'user': 'viktor',
 
 for item in data:
     for domain in item['domains']:
-        config=Template(template)
-        config=config.render(user=item['user'], domain=domain)
-        print(config)
+        j2_env=Environment(loader=FileSystemLoader(templatedir),
+                         trim_blocks=True)
+        for template in templates:
+            config=j2_env.get_template(template).render(user=item['user'], domain=domain)
+            print('Шаблон: ' + template)
+            print(config)

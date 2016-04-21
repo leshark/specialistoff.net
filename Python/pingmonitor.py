@@ -58,7 +58,7 @@ while True:
 
     rrdtool.graph( 'graph.png',
         # За какой период показать график: 30 минут
-        "--start", "-1h",
+        "--start", "-1d",
         "--title", "Ping",
         "--disable-rrdtool-tag",
         "--imgformat" , "PNG" ,

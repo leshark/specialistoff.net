@@ -126,6 +126,3 @@ class IPCalc():
         result.append("Количество адресов: %s" % (self.Addresses))
         result.append("Количество хостовых адресов: %s" % (self.Hosts))
         return '\n'.join(result)
-
-net = IPCalc('10.0.0.0/8')
-print(net[65536])

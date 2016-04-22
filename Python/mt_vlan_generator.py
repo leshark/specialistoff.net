@@ -24,7 +24,7 @@ templates = """# Создание и настройка интерфейса
 /interface vlan
 add interface=bridge-local name=vlan{{ data['id'] }} vlan-id={{ data['id'] }}
 /ip address
-add interface=vlan{{ data['id'] }} address={{ data['gateway'] }}/{{ data['subnet'] }}
+add interface=vlan{{ data['id'] }} address={{ data['net'].FirstIP }}/{{ data['net'].Bitmask }}
 
 # Шейпер
 /queue simple
@@ -32,33 +32,32 @@ add max-limit=3M/3M name=queue{{ data['id'] }} target=vlan{{ data['id'] }}
 
 # DHCP
 /ip pool
-add name=pool2 ranges={{ data['range'][0] }}-{{ data['range'][1] }}
+add name=pool2 ranges={{ data['net'][2] }}-{{ data['net'].LastIP }}
 /ip dhcp-server
 add address-pool=pool1 interface=bridge-local name=server1
 /ip dhcp-server network
-add address={{ data['broadcast'] }}/{{ data['subnet'] }} dns-server=77.88.8.8,77.88.8.1 gateway={{ data['gateway'] }} netmask={{ data['subnet'] }}
+add address={{ data['net'].Network }}/{{ data['net'].Bitmask }} dns-server=77.88.8.8,77.88.8.1 gateway={{ data['net'].FirstIP }} netmask={{ data['net'].Bitmask }}
 
 # NAT
 /ip firewall address-list
-add address={{ data['ip'] }}/24 list=vlans
+add address={{ data['net'].Address }}/{{ data['net'].Bitmask }} list=vlans
 
 /ip firewall nat
 add action=src-nat chain=srcnat out-interface=WAN src-address-list=vlans to-addresses=XXX.XXX.XXX.XXX
 # XXX.XXX.XXX.XXX - внешний IP
 """
 
-vlans = [{'id': 70, 'ip': '192.168.0.0/24'},
-{'id': 80, 'ip': '192.168.1.0/24'},
-{'id': 90, 'ip': '192.168.2.0/24'},
-{'id': 100, 'ip': '192.168.3.0/24'}]
+vlans = [{'id': 10, 'ip': '10.0.1.0/29'},
+{'id': 11, 'ip': '10.0.1.8/29'},
+{'id': 12, 'ip': '10.0.1.16/29'},
+{'id': 13, 'ip': '10.0.1.24/29'},
+{'id': 14, 'ip': '10.0.1.32/29'},
+{'id': 15, 'ip': '10.0.1.40/29'}]
 
 for item in vlans:
     template=Template(templates)
     data = {'id': item['id']}
-    net = ipcalc.Network(item['ip'])
-    data['gateway'] = net.host_first()
-    data['subnet'] = net.subnet()
-    data['range'] = [net[2], net.host_last()]
-    data['broadcast'] = net.info()
+    net = ipcalc.IPCalc(item['ip'])
+    data['net'] = net
     template=template.render(data=data)
     print(template)

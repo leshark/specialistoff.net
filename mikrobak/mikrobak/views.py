@@ -15,6 +15,7 @@ from paramiko import AutoAddPolicy
 from mikrobak import app
 from flask import Flask, render_template, request, escape, redirect
 from models import *
+from difflib import Differ
 
 @app.route('/', methods=['GET'])
 def index():
@@ -88,5 +89,17 @@ def save(id):
 def backupview(id):
     pagedata = {}
     pagedata['backup'] = db_session.query(Backup).filter(Backup.id == id).first()
+    body = render_template('backupview.html', pagedata=pagedata)
+    return body
+    
+@app.route('/diff', methods=['POST'])
+def diffbackup():
+    pagedata = {}
+    baklist = request.form.getlist('backup')
+    d = Differ()
+    text1 = db_session.query(Backup).filter(Backup.id == baklist[0]).first()
+    text2 = db_session.query(Backup).filter(Backup.id == baklist[1]).first()
+    pagedata['backups'] = [text1, text2]
+    pagedata['diff'] = '\n'.join(list(d.compare(text1.text.split("\n"), text2.text.split("\n"))))
     body = render_template('backupview.html', pagedata=pagedata)
     return body

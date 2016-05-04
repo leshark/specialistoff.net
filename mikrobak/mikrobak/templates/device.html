@@ -6,11 +6,14 @@ IP: <input value="{{ pagedata['device'].ip }}"/>
 Пароль: <input value="{{ pagedata['device'].password }}"/>
 </form>
 <a href="/device/{{ pagedata['device'].id }}/backup">Backup</a><br />
+<form action="/diff" method="post">
 <table>
     <tr><th>Дата</th><th>Название</th></tr>
     {% for item in pagedata['backups'] %}
-<tr><td>{{ item.created }}</td><td><a href="/backup/{{ item.id }}">{{ item.title }}</a></td></tr>
+<tr><td><input type="checkbox" name="backup" value="{{ item.id }}"/>{{ item.created }}</td><td><a href="/backup/{{ item.id }}">{{ item.title }}</a></td></tr>
 {% endfor %}
 </table>
+<button>Сравнить</button>
+</form>
 </div>
 {% endblock %}

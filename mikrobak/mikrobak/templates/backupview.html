@@ -1,5 +1,7 @@
 {% extends "skeleton.html" %}
 {% block body %}
 <div class="box">
-<pre>{{ pagedata['backup'].text }}</pre></div>
+    <h2>Сравнение конфигураций [{{ pagedata['backups'][0].id }} от {{ pagedata['backups'][0].created }}] и [{{ pagedata['backups'][1].id }} от {{ pagedata['backups'][1].created }}]</h2>
+    <pre>{{ pagedata['diff'] }}</pre>
+</div>
 {% endblock %}

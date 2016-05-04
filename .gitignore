@@ -4,7 +4,7 @@ __pycache__/
 **/__pycache__/
 
 #
-../data/
+**/data/
 
 Python/graph.png
 Python/database.rrd

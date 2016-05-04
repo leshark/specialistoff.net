@@ -1,0 +1,23 @@
+{% extends "skeleton.html" %}
+{% block body %}
+<div class="box">
+<form method="post" action="/device/add">
+<div class="faq-form-title">Имя:</div>
+<input class="faq-form-input" type="text" size="40" name="name">
+<br/>
+<div class="faq-form-title">IP:</div>
+<input class="faq-form-input" type="text" size="40" name="ip">
+<br/>
+<div class="faq-form-title">Пользователь:</div>
+<input class="faq-form-input" type="text" size="40" name="username">
+<br/>
+<div class="faq-form-title">Пароль:</div>
+<input class="faq-form-input" type="text" size="40" name="password">
+<br/>
+<div class="faq-form-title">Серийный номер:</div>
+<input class="faq-form-input" type="text" size="40" name="sn">
+<br/>
+<button class="faq-form-input">Отправить</button>
+</form>
+</div>
+{% endblock %}

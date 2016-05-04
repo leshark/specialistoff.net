@@ -1,0 +1,10 @@
+{% extends "skeleton.html" %}
+{% block body %}
+<div class="box">
+{% for item in pagedata['devices'] %}
+<div class="item">
+<a href="/device/{{ item.id }}">{{ item.name }}</a>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

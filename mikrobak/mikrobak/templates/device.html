@@ -1,0 +1,16 @@
+{% extends "skeleton.html" %}
+{% block body %}
+<div class="box">
+<form  method="post" action="/device/{{ pagedata['device'].id }}/edit">
+IP: <input value="{{ pagedata['device'].ip }}"/>
+Пароль: <input value="{{ pagedata['device'].password }}"/>
+</form>
+<a href="/device/{{ pagedata['device'].id }}/backup">Backup</a><br />
+<table>
+    <tr><th>Дата</th><th>Название</th></tr>
+    {% for item in pagedata['backups'] %}
+<tr><td>{{ item.created }}</td><td><a href="/backup/{{ item.id }}">{{ item.title }}</a></td></tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}

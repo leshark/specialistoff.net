@@ -14,22 +14,41 @@ __email__ = 'remizoffalex@mail.ru'
 
 import os
 import sys
+import argparse
+import traceback
+import ipcalc
 
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 
-templates = {"debian": """auto eth0:{{ i }}
-iface eth0:{{ i }} inet static
-	address {{ ip }}
-	netmask 255.255.255.0
+def generate(os, listip, templatedir):
+    j2_env=Environment(loader=FileSystemLoader(templatedir),
+                     trim_blocks=True)
+    for i, line in enumerate(listip):
+        net = ipcalc.IPCalc(line)
+        template=j2_env.get_template(os + '.interfaces.template').render(i=i, net=net)
+        print(template)
 
-""",
-"freebsd": '''ifconfig_re0="inet {{ ip }} netmask 255.255.255.0 up"'''}
+def main():
+    parser = argparse.ArgumentParser(description='Генератор конфигурационного файла для сетевых интерфейсов',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser._optionals.title = "Необязательные аргументы"
 
-listip = """192.168.0.2
-192.168.0.3
-"""
+    parser.add_argument("--ipv4", nargs='+', dest="ipv4", required=True, help="IP v4")
+    parser.add_argument("--os", dest="os", required=True, help="Операционная система")
+    parser.add_argument("--tmpldir",
+        dest="tmpldir",
+        default=os.path.dirname(os.path.abspath(__file__)) + "/templates",
+        help="Каталог шаблонов")
 
-for i, line in enumerate(listip.split()):
-    template=Template(templates["debian"])
-    template=template.render(i=i, ip=line)
-    print(template)
+    args = parser.parse_args()
+
+    generate(args.os, args.ipv4, args.tmpldir)
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as ex:
+        traceback.print_exc(file=sys.stdout)
+        exit(1)
+
+    exit(0)

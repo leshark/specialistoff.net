@@ -1,0 +1,15 @@
+{% extends "skeleton.html" %}
+{% block body %}
+<div class="box">
+<a href="/device/{{ pagedata['device'].id }}">{{ pagedata['device'].name }}</a><br />
+IP: {{ pagedata['device'].ip }}
+<form method="post" action="/device/{{ pagedata['device'].id }}/save">
+    <div class="faq-form-title">Название резервной копии:</div>
+    <input class="faq-form-input" type="text" size="40" name="title">
+    <br/>
+    <textarea cols="60" rows="16" name="backuptext">{{ pagedata['settings'] }}</textarea><br />
+    <button>Сохранить</button>
+</form>
+<p>Ошибка: {{ pagedata['error'] }}</p>
+</div>
+{% endblock %}

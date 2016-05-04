@@ -1,4 +1,10 @@
 *.pyc
+*.pio
+__pycache__/
+**/__pycache__/
+
+#
+../data/
 
 Python/graph.png
 Python/database.rrd

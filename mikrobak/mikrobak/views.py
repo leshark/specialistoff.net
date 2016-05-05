@@ -42,6 +42,7 @@ def deviceadd():
             newdev.serialnumber = escape(request.form['sn'])
         db_session.add(newdev)
         db_session.commit()
+        return redirect('/devices', code=302)
     body = render_template('deviceadd.html')
     return body
 

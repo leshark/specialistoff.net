@@ -1,3 +1,18 @@
+body {
+    font-family: 'Liberation Sans', 'Tahoma', 'Helvetica Neue', 'Helvetica', 'Arial', 'Droid Sans', 'sans-serif';
+}
+h2 {
+    text-align: center;
+}
+pre {
+    padding: 5px;
+    background-color: #f0f0f0;
+    color: #303050;
+    font-family: "Liberation Mono";
+    word-wrap:break-word;
+    border: solid 1px #aaa;
+    border-radius: 3px;
+}
 .wrapper {
     margin-left: 200px;
 }

@@ -102,5 +102,5 @@ def diffbackup():
     text2 = db_session.query(Backup).filter(Backup.id == baklist[1]).first()
     pagedata['backups'] = [text1, text2]
     pagedata['diff'] = '\n'.join(list(d.compare(text1.text.split("\n"), text2.text.split("\n"))))
-    body = render_template('backupview.html', pagedata=pagedata)
+    body = render_template('diffview.html', pagedata=pagedata)
     return body

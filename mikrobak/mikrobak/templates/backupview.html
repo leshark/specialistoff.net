@@ -1,11 +1,8 @@
 {% extends "skeleton.html" %}
 {% block body %}
 <div class="box">
-    <h2>Сравнение конфигураций</h2>
-<ul>
-    <li>{{ pagedata['backups'][0].id }} от {{ pagedata['backups'][0].created.strftime('%Y-%m-%d %H-%M') }}</li>
-    <li>{{ pagedata['backups'][1].id }} от {{ pagedata['backups'][1].created.strftime('%Y-%m-%d %H-%M') }}</li>
-</ul>
-    <pre>{{ pagedata['diff'] }}</pre>
+    <h2>Конфигурация</h2>
+    <p>{{ pagedata['backup'].id }} от {{ pagedata['backup'].created.strftime('%Y-%m-%d %H-%M') }}</p>
+    <pre>{{ pagedata['backup'].text }}</pre>
 </div>
 {% endblock %}

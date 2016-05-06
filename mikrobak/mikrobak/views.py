@@ -13,12 +13,13 @@ from paramiko import SSHClient
 from paramiko import AutoAddPolicy
 
 from mikrobak import app
-from flask import Flask, render_template, request, escape, redirect
+from flask import Flask, render_template, request, escape, redirect, jsonify
 from models import *
 from difflib import Differ
 
 @app.route('/', methods=['GET'])
 def index():
+    """Главная страница"""
     body = render_template('index.html')
     return body
 
@@ -60,6 +61,13 @@ def device(id):
 def backup(id):
     pagedata = {}
     pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
+    body = render_template('backup.html', pagedata=pagedata)
+    return body
+
+@app.route('/device/<int:id>/backupdl', methods=['POST'])
+def getbackup(id):
+    pagedata = {}
+    pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
     sshCli = SSHClient()
     sshCli.set_missing_host_key_policy(AutoAddPolicy())
     print(pagedata['device'].ip)
@@ -73,7 +81,8 @@ def backup(id):
     sshCli.close()
     pagedata['settings'] = stdout.read().decode('utf-8')
     pagedata['error'] = stderr.read().decode('utf-8')
-    body = render_template('backup.html', pagedata=pagedata)
+    body = jsonify({'settings': pagedata['settings'],
+        'error': pagedata['error']})
     return body
 
 @app.route('/device/<int:id>/save', methods=['POST'])

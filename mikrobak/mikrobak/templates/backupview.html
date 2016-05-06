@@ -2,6 +2,7 @@
 {% block body %}
 <div class="box">
     <h2>Конфигурация</h2>
+    <p>Устройство: <a href="/device/{{ pagedata['backup'].device_id }}">{{ pagedata['backup'].device.name }}</a></p>
     <p>{{ pagedata['backup'].id }} от {{ pagedata['backup'].created.strftime('%Y-%m-%d %H-%M') }}</p>
     <pre>{{ pagedata['backup'].text }}</pre>
 </div>

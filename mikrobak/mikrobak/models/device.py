@@ -23,6 +23,9 @@ class Device(Base):
     serialnumber = Column(String)
     created = Column(DateTime)
 
+    # Связи
+    backups = relationship("Backup", backref='backup', primaryjoin="Device.id==Backup.device_id")
+
     def __init__(self, name, ip, username, password):
         self.name = name
         self.ip = ip
@@ -41,7 +44,7 @@ class Backup(Base):
     created = Column(DateTime)
 
     # Связи
-    devices = relationship("Device", backref='device', primaryjoin="Device.id==Backup.device_id")
+    device = relationship("Device", backref='device', primaryjoin="Device.id==Backup.device_id")
 
     def __init__(self, device_id, title, text):
         self.device_id = device_id

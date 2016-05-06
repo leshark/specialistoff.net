@@ -1,5 +1,27 @@
 {% extends "skeleton.html" %}
 {% block body %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".getbackup").click(function(event) {
+        var sendData = "";
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType:"application/json; charset=utf-8",
+            url: "/device/{{ pagedata['device'].id }}/backupdl",
+            data: sendData,
+            success: function(result) {
+                $(".settings").text(result.settings);
+            },
+            error: function(msg) {
+                console.log("%s %s" ,xhr,type);
+                return false;
+            }
+        });
+        return false;
+    });
+});
+</script>
 <div class="box">
 <a href="/device/{{ pagedata['device'].id }}">{{ pagedata['device'].name }}</a><br />
 IP: {{ pagedata['device'].ip }}
@@ -7,8 +29,8 @@ IP: {{ pagedata['device'].ip }}
     <div class="faq-form-title">Название резервной копии:</div>
     <input class="faq-form-input" type="text" size="40" name="title">
     <br/>
-    <textarea cols="60" rows="16" name="backuptext">{{ pagedata['settings'] }}</textarea><br />
-    <button>Сохранить</button>
+    <textarea class="settings" cols="60" rows="16" name="backuptext">{{ pagedata['settings'] }}</textarea><br />
+    <button type="button" class="getbackup">Получить настройки с устройства</button> <button>Сохранить</button>
 </form>
 <p>Ошибка: {{ pagedata['error'] }}</p>
 </div>

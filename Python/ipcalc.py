@@ -6,7 +6,7 @@ __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
 
-class IPCalc():
+class IPCalcV4():
     def __init__(self, addr, cidr = None):
         overloads = addr.split('/')
         if len(overloads)>1:

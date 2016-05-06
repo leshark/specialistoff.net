@@ -1,9 +1,11 @@
 {% extends "skeleton.html" %}
 {% block body %}
+<div class="clear"></div>
 <div class="box">
 {% for item in pagedata['devices'] %}
 <div class="item">
-<a href="/device/{{ item.id }}">{{ item.name }}</a>
+<a href="/device/{{ item.id }}">{{ item.name }}</a><br />
+Количество: {{ item.backups|length }}
 </div>
 {% endfor %}
 </div>

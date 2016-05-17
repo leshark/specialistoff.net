@@ -1,0 +1,23 @@
+{% extends "skeleton.html" %}
+{% block body %}
+<div class="form-input">
+<form method="post" action="/device/{{ pagedata['device'].id }}/edit">
+{{ pagedata['form'].devicename.label }}:<br/>
+{{ pagedata['form'].devicename }}
+<br/>
+{{ pagedata['form'].ip.label }}:
+{{ pagedata['form'].ip }}
+<br/>
+{{ pagedata['form'].username.label }}:
+{{ pagedata['form'].username }}
+<br/>
+{{ pagedata['form'].password.label }}:
+{{ pagedata['form'].password }}
+<br/>
+{{ pagedata['form'].sn.label }}:
+{{ pagedata['form'].sn }}
+<br/>
+<button class="faq-form-input">Сохранить</button>
+</form>
+</div>
+{% endblock %}

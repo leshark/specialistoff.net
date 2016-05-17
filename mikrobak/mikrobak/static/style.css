@@ -16,7 +16,6 @@ pre {
 .wrapper {
     margin-left: 200px;
     margin-right: 5px;
-    clear: both;
 }
 .clear {
     clear: both
@@ -34,4 +33,29 @@ pre {
     min-height: 25px;
     width: 250px;
     float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    border: 2px solid #D4D4D4;
+    border-radius: 10px;
+    padding: 5px;
+    width: 200px;
+    box-sizing: border-box;
+}
+.form-input label {
+    font-size: 1.2em;
+}
+.form-input input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+.form-input button {
+    border-radius: 5px;
+    height: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
 }

@@ -1,11 +1,13 @@
 {% extends "skeleton.html" %}
 {% block body %}
 <div class="box">
-<form  method="post" action="/device/{{ pagedata['device'].id }}/edit">
-IP: <input value="{{ pagedata['device'].ip }}"/><br />
-Пароль: <input value="{{ pagedata['device'].password }}"/>
-</form>
-<a href="/device/{{ pagedata['device'].id }}/backup">Backup</a><br />
+<div style="float: right;">
+    <a href="/device/{{ pagedata['device'].id }}/edit"><img src="/static/edit.png" width="20px"/></a>
+    <a href="/device/{{ pagedata['device'].id }}/delete"><img src="/static/delete.png" width="20px"/></a>
+</div>
+<h2>Название: {{ pagedata['device'].name }}</h2>
+IP: {{ pagedata['device'].ip }}<br />
+<a href="/device/{{ pagedata['device'].id }}/backup">Создать резервную копию</a><br />
 <form action="/diff" method="post">
 <div class="box">
     {% for item in pagedata['backups'] %}
@@ -14,7 +16,7 @@ IP: <input value="{{ pagedata['device'].ip }}"/><br />
 {% endfor %}
 <div class="clear"></div>
 </div>
-<button>Сравнить</button>
+<button class="form-input">Сравнить</button>
 </form>
 </div>
 {% endblock %}

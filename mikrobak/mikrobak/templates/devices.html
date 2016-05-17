@@ -4,7 +4,11 @@
 <div class="box">
 {% for item in pagedata['devices'] %}
 <div class="item">
-<a href="/device/{{ item.id }}">{{ item.name }}</a><br />
+<a href="/device/{{ item.id }}">{{ item.name }}</a>
+<div style="float: right;">
+    <a href="/device/{{ item.id }}/edit"><img src="/static/edit.png" width="20px"/></a>
+    <a href="/device/{{ item.id }}/delete"><img src="/static/delete.png" width="20px"/></a>
+</div><br />
 Количество: {{ item.backups|length }}
 </div>
 {% endfor %}

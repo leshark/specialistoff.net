@@ -2,20 +2,20 @@
 {% block body %}
 <div class="box">
 <form method="post" action="/device/add">
-<div class="faq-form-title">Имя:</div>
-<input class="faq-form-input" type="text" size="40" name="name">
+<div class="faq-form-title">{{ pagedata['form'].devicename.label }}:</div>
+{{ pagedata['form'].devicename(class_="faq-form-input") }}
 <br/>
-<div class="faq-form-title">IP:</div>
-<input class="faq-form-input" type="text" size="40" name="ip">
+<div class="faq-form-title">{{ pagedata['form'].ip.label }}:</div>
+{{ pagedata['form'].ip(class_="faq-form-input") }}
 <br/>
-<div class="faq-form-title">Пользователь:</div>
-<input class="faq-form-input" type="text" size="40" name="username">
+<div class="faq-form-title">{{ pagedata['form'].username.label }}:</div>
+{{ pagedata['form'].username(class_="faq-form-input") }}
 <br/>
-<div class="faq-form-title">Пароль:</div>
-<input class="faq-form-input" type="text" size="40" name="password">
+<div class="faq-form-title">{{ pagedata['form'].password.label }}:</div>
+{{ pagedata['form'].password(class_="faq-form-input") }}
 <br/>
-<div class="faq-form-title">Серийный номер:</div>
-<input class="faq-form-input" type="text" size="40" name="sn">
+<div class="faq-form-title">{{ pagedata['form'].sn.label }}:</div>
+{{ pagedata['form'].sn(class_="faq-form-input") }}
 <br/>
 <button class="faq-form-input">Отправить</button>
 </form>

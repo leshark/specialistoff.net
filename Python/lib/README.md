@@ -20,7 +20,8 @@ def show_users(page):
     return render_template('users.html',
         pagination=pagination,
         users=users
-    )```
+    )
+```
 
 ## Рендеринг
 
@@ -43,4 +44,5 @@ def show_users(page):
       }}">Next &raquo;</a>
   {% endif %}
   </div>
-{% endmacro %}```
+{% endmacro %}
+```

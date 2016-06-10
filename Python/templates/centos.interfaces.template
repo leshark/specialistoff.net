@@ -1,0 +1,12 @@
+{% if net.version == 'v4' %}
+cat <<EOF > /etc/sysconfig/network-scripts/ifcfg-eth0:{{ i }}
+DEVICE=eth0:{{ i }}
+BOOTPROTO=static
+IPADDR={{ net.Address }}
+NETMASK={{ net.Netmask }}
+ONBOOT=yes
+EOF
+{% elif net.version == 'v6' %}iface eth0:{{ i }} inet6 static
+	address {{ net.Address }}
+	netmask {{ net.Netmask }}
+{% endif %}

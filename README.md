@@ -6,3 +6,7 @@ http://SpecialistOff.NET/
 ## Хранение резервных копий
 
 * mikrobak
+
+## Код базового веб с Bootstrap
+
+* Python/myapp

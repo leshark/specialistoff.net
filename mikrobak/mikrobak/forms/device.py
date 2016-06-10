@@ -6,7 +6,7 @@ __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
 
-from wtforms import Form, TextField, RadioField
+from wtforms import Form, TextField, TextAreaField, RadioField
 
 class DeviceNew(Form):
     devicename = TextField('Имя')
@@ -24,3 +24,7 @@ class DeviceEdit(Form):
 
 class DeviceDelete(Form):
     delete = RadioField(choices=[('yes', 'Да, удалить'), ('no', 'Нет, не удалять')], default='no')
+
+class Backup(Form):
+    title = TextField('Название')
+    backuptext = TextAreaField('Настройки')

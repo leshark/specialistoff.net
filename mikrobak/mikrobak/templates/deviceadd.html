@@ -1,23 +1,40 @@
 {% extends "skeleton.html" %}
 {% block body %}
-<div class="box">
+<div class="panel panel-default">
+<div class="panel-heading">Добавление нового устройства</div>
+
+<div class="panel-body">
 <form method="post" action="/device/add">
+
+<div class="form-group">
 <div class="faq-form-title">{{ pagedata['form'].devicename.label }}:</div>
-{{ pagedata['form'].devicename(class_="faq-form-input") }}
-<br/>
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].devicename(class="form-control") }}
+</div>
+</div>
+
 <div class="faq-form-title">{{ pagedata['form'].ip.label }}:</div>
-{{ pagedata['form'].ip(class_="faq-form-input") }}
-<br/>
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].ip(class="form-control") }}
+</div>
+
 <div class="faq-form-title">{{ pagedata['form'].username.label }}:</div>
-{{ pagedata['form'].username(class_="faq-form-input") }}
-<br/>
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].username(class="form-control") }}
+</div>
+
 <div class="faq-form-title">{{ pagedata['form'].password.label }}:</div>
-{{ pagedata['form'].password(class_="faq-form-input") }}
-<br/>
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].password(class="form-control") }}
+</div>
+
 <div class="faq-form-title">{{ pagedata['form'].sn.label }}:</div>
-{{ pagedata['form'].sn(class_="faq-form-input") }}
-<br/>
-<button class="faq-form-input">Отправить</button>
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].sn(class="form-control") }}
+</div>
+
+<button class="btn btn-success">Отправить</button>
 </form>
+</div>
 </div>
 {% endblock %}

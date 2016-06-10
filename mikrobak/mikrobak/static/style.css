@@ -1,61 +1,16 @@
 body {
-    font-family: 'Liberation Sans', 'Tahoma', 'Helvetica Neue', 'Helvetica', 'Arial', 'Droid Sans', 'sans-serif';
-}
-h2 {
-    text-align: center;
-}
-pre {
-    padding: 5px;
-    background-color: #f0f0f0;
-    color: #303050;
-    font-family: "Liberation Mono";
-    word-wrap:break-word;
-    border: solid 1px #aaa;
-    border-radius: 3px;
+    padding-left: 200px important;
 }
 .wrapper {
-    margin-left: 200px;
-    margin-right: 5px;
+    margin-left: 250px;
+    margin-bottom: 20px;
 }
-.clear {
-    clear: both
-}
-.box {
-    padding-left: 5px;
-    width: 100%;
-    box-sizing: border-box;
-    height:auto;
-}
-.item {
-    border: 2px solid #D4D4D4;
-    border-radius: 10px;
-    padding: 5px;
-    min-height: 25px;
-    width: 250px;
-    float: left;
-    margin-right: 5px;
-    margin-bottom: 5px;
-}
-
-.form-input {
-    border: 2px solid #D4D4D4;
-    border-radius: 10px;
-    padding: 5px;
+.sidebar-left {
+    float:left;
     width: 200px;
-    box-sizing: border-box;
+    margin-bottom: 20px;
 }
-.form-input label {
-    font-size: 1.2em;
-}
-.form-input input {
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 5px;
-}
-.form-input button {
-    border-radius: 5px;
-    height: 30px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 5px;
+.silver {
+    background: #3030A0;
+    background: linear-gradient(#fcfcfc, #e5e5e5, #e0e0e0);
 }

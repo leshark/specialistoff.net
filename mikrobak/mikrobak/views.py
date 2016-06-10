@@ -17,7 +17,7 @@ from flask import Flask, render_template, request, escape, redirect, jsonify
 from models import *
 import forms
 
-from difflib import Differ
+import difflib
 
 @app.route('/', methods=['GET'])
 def index():
@@ -98,6 +98,7 @@ def device(id):
 @app.route('/device/<int:id>/backup')
 def backup(id):
     pagedata = {}
+    pagedata['form'] = forms.Backup(request.form)
     pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
     body = render_template('backup.html', pagedata=pagedata)
     return body
@@ -125,6 +126,8 @@ def getbackup(id):
 
 @app.route('/device/<int:id>/save', methods=['POST'])
 def save(id):
+    pagedata = {}
+    pagedata['form'] = forms.Backup(request.form)
     device = db_session.query(Device).filter(Device.id == id).first()
     backup = Backup(device_id=id,
         title=escape(request.form['title']),
@@ -144,10 +147,9 @@ def backupview(id):
 def diffbackup():
     pagedata = {}
     baklist = request.form.getlist('backup')
-    d = Differ()
     text1 = db_session.query(Backup).filter(Backup.id == baklist[0]).first()
     text2 = db_session.query(Backup).filter(Backup.id == baklist[1]).first()
     pagedata['backups'] = [text1, text2]
-    pagedata['diff'] = '\n'.join(list(d.compare(text1.text.split("\n"), text2.text.split("\n"))))
+    pagedata['diff'] = '\n'.join(list(difflib.unified_diff(text1.text.split("\n"), text2.text.split("\n"))))
     body = render_template('diffview.html', pagedata=pagedata)
     return body

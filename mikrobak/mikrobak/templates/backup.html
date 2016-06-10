@@ -11,7 +11,7 @@ $(document).ready(function() {
             url: "/device/{{ pagedata['device'].id }}/backupdl",
             data: sendData,
             success: function(result) {
-                $(".settings").text(result.settings);
+                $("#backuptext").text(result.settings);
             },
             error: function(msg) {
                 console.log("%s %s" ,xhr,type);
@@ -22,16 +22,31 @@ $(document).ready(function() {
     });
 });
 </script>
-<div class="box">
+<div class="panel panel-default">
+<div class="panel-heading">
 <a href="/device/{{ pagedata['device'].id }}">{{ pagedata['device'].name }}</a><br />
 IP: {{ pagedata['device'].ip }}
+</div>
+
+<div class="panel-body">
 <form method="post" action="/device/{{ pagedata['device'].id }}/save">
-    <div class="faq-form-title">Название резервной копии:</div>
-    <input class="faq-form-input" type="text" size="40" name="title">
-    <br/>
-    <textarea class="settings" cols="60" rows="16" name="backuptext">{{ pagedata['settings'] }}</textarea><br />
-    <button type="button" class="getbackup">Получить настройки с устройства</button> <button>Сохранить</button>
+
+<div class="form-group">
+{{ pagedata['form'].title.label }}
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].title(class="form-control") }}
+</div>
+</div>
+
+{{ pagedata['form'].backuptext.label }}
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].backuptext(class="form-control", rows=16) }}
+</div>
+
+<button type="button" class="getbackup">Получить настройки с устройства</button>
+<button class="btn btn-success">Сохранить</button>
 </form>
 <p>Ошибка: {{ pagedata['error'] }}</p>
+</div>
 </div>
 {% endblock %}

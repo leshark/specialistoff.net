@@ -1,22 +1,27 @@
 {% extends "skeleton.html" %}
 {% block body %}
-<div class="box">
+<div class="panel panel-default">
 <div style="float: right;">
     <a href="/device/{{ pagedata['device'].id }}/edit"><img src="/static/edit.png" width="20px"/></a>
     <a href="/device/{{ pagedata['device'].id }}/delete"><img src="/static/delete.png" width="20px"/></a>
 </div>
-<h2>Название: {{ pagedata['device'].name }}</h2>
+<div class="panel-heading">Название: {{ pagedata['device'].name }}</div>
+<div class="panel-body">
 IP: {{ pagedata['device'].ip }}<br />
 <a href="/device/{{ pagedata['device'].id }}/backup">Создать резервную копию</a><br />
 <form action="/diff" method="post">
-<div class="box">
-    {% for item in pagedata['backups'] %}
-<div class="item"><input type="checkbox" name="backup" value="{{ item.id }}"/>Дата: {{ item.created.strftime('%Y-%m-%d %H-%M') }}<br />
-Название: <a href="/backup/{{ item.id }}">{{ item.title }}</a></div>
-{% endfor %}
-<div class="clear"></div>
+{% for item in pagedata['backups'] %}
+<div class="panel panel-default" style="width: 24%; min-width: 200px; float: left; margin-left: 5px;">
+<div class="panel-body">
+<input type="checkbox" name="backup" value="{{ item.id }}"/>Дата: {{ item.created.strftime('%Y-%m-%d %H-%M') }}<br />
+Название: <a href="/backup/{{ item.id }}">{{ item.title }}</a>
 </div>
-<button class="form-input">Сравнить</button>
+</div>
+{% endfor %}
+
+<div style="clear: both;"></div>
+<button class="btn btn-success">Сравнить</button>
 </form>
+</div>
 </div>
 {% endblock %}

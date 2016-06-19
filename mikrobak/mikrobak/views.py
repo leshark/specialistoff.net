@@ -22,12 +22,15 @@ import difflib
 @app.route('/', methods=['GET'])
 def index():
     """Главная страница"""
-    body = render_template('index.html')
+    pagedata = {}
+    pagedata['title'] = "Главная страница"
+    body = render_template('index.html', pagedata=pagedata)
     return body
 
 @app.route('/devices', methods=['GET'])
 def devices():
     pagedata = {}
+    pagedata['title'] = "Список устройств"
     pagedata['devices'] = db_session.query(Device).order_by(Device.name).all()
     body = render_template('devices.html', pagedata=pagedata)
     return body
@@ -35,6 +38,7 @@ def devices():
 @app.route('/device/add', methods=['GET', 'POST'])
 def deviceadd():
     pagedata = {}
+    pagedata['title'] = "Добавление нового устройства"
     pagedata['form'] = forms.DeviceNew(request.form)
     if request.method == 'POST':
         newdev = Device(name=escape(pagedata['form'].devicename.data),
@@ -63,11 +67,12 @@ def deviceedit(id):
         db_session.commit()
     else:
         if pagedata['device']:
-            pagedata['form'].devicename.data = pagedata['device'].name
-            pagedata['form'].ip.data = pagedata['device'].ip
-            pagedata['form'].username.data = pagedata['device'].username
-            pagedata['form'].password.data = pagedata['device'].password
-            pagedata['form'].sn.data = pagedata['device'].serialnumber
+            pagedata['form'] = forms.DeviceEdit(request.form,
+                data={'devicename': pagedata['device'].name,
+                    'ip': pagedata['device'].ip,
+                    'username': pagedata['device'].username,
+                    'password': pagedata['device'].password,
+                    'sn': pagedata['device'].serialnumber})
     body = render_template('deviceedit.html', pagedata=pagedata)
     return body
 
@@ -142,7 +147,27 @@ def backupview(id):
     pagedata['backup'] = db_session.query(Backup).filter(Backup.id == id).first()
     body = render_template('backupview.html', pagedata=pagedata)
     return body
-    
+
+@app.route('/backup/<int:id>/edit', methods=['GET', 'POST'])
+def backupedit(id):
+    pagedata = {}
+    pagedata['form'] = forms.BackupEdit(request.form)
+    pagedata['backup'] = db_session.query(Backup).filter(Backup.id == id).first()
+    if request.method == 'POST':
+        if pagedata['backup']:
+            pagedata['backup'].title = escape(pagedata['form'].title.data)
+            pagedata['backup'].text = escape(pagedata['form'].backuptext.data)
+            pagedata['backup'].comment = escape(pagedata['form'].comment.data)
+        db_session.commit()
+    else:
+        if pagedata['backup']:
+            pagedata['form'] = forms.BackupEdit(request.form,
+                data={'title': pagedata['backup'].title,
+                    'backuptext': pagedata['backup'].text,
+                    'comment': pagedata['backup'].comment})
+    body = render_template('backupedit.html', pagedata=pagedata)
+    return body
+
 @app.route('/diff', methods=['POST'])
 def diffbackup():
     pagedata = {}

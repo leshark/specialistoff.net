@@ -1,9 +1,16 @@
 {% extends "skeleton.html" %}
 {% block body %}
-<div class="box">
-    <h2>Конфигурация</h2>
-    <p>Устройство: <a href="/device/{{ pagedata['backup'].device_id }}">{{ pagedata['backup'].device.name }}</a></p>
-    <p>{{ pagedata['backup'].id }} от {{ pagedata['backup'].created.strftime('%Y-%m-%d %H-%M') }}</p>
+<div class="panel panel-default">
+<div class="panel-heading">
+<div style="float: right;">
+    <a href="/device/{{ pagedata['backup'].id }}/edit"><img src="/static/edit.png" width="20px"/></a>
+    <a href="/device/{{ pagedata['backup'].id }}/delete"><img src="/static/delete.png" width="20px"/></a>
+</div>
+Конфигурация {{ pagedata['backup'].id }} от {{ pagedata['backup'].created.strftime('%Y-%m-%d %H-%M') }}<br />
+Устройство: <a href="/device/{{ pagedata['backup'].device_id }}">{{ pagedata['backup'].device.name }}</a>
+</div>
+<div class="panel-body">
     <pre>{{ pagedata['backup'].text }}</pre>
+</div>
 </div>
 {% endblock %}

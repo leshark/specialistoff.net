@@ -1,20 +1,38 @@
 {% extends "skeleton.html" %}
 {% block body %}
 <div class="panel panel-default">
+<div class="panel-heading">
 <div style="float: right;">
     <a href="/device/{{ pagedata['device'].id }}/edit"><img src="/static/edit.png" width="20px"/></a>
     <a href="/device/{{ pagedata['device'].id }}/delete"><img src="/static/delete.png" width="20px"/></a>
 </div>
-<div class="panel-heading">Название: {{ pagedata['device'].name }}</div>
+Название: {{ pagedata['device'].name }} IP: {{ pagedata['device'].ip }}</div>
 <div class="panel-body">
-IP: {{ pagedata['device'].ip }}<br />
-<a href="/device/{{ pagedata['device'].id }}/backup">Создать резервную копию</a><br />
+
+<div class="panel panel-default">
+<div class="panel-body">
+Показать <select class="form-control">
+<option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> элементов на странице
+</div>
+</div>
+
+<a class="btn btn-default" href="/device/{{ pagedata['device'].id }}/backup">
+Создать резервную копию
+</a>
+<hr />
+
 <form action="/diff" method="post">
 {% for item in pagedata['backups'] %}
 <div class="panel panel-default" style="width: 24%; min-width: 200px; float: left; margin-left: 5px;">
+<div class="panel-heading">
+<a href="/backup/{{ item.id }}">{{ item.title }}</a>
+<div style="float: right;">
+    <a href="/backup/{{ item.id }}/edit"><img src="/static/edit.png" width="20px"/></a>
+    <a href="/backup/{{ item.id }}/delete"><img src="/static/delete.png" width="20px"/></a>
+</div>
+</div>
 <div class="panel-body">
-<input type="checkbox" name="backup" value="{{ item.id }}"/>Дата: {{ item.created.strftime('%Y-%m-%d %H-%M') }}<br />
-Название: <a href="/backup/{{ item.id }}">{{ item.title }}</a>
+<input type="checkbox" name="backup" value="{{ item.id }}"/>Дата: {{ item.created.strftime('%Y-%m-%d %H-%M') }}
 </div>
 </div>
 {% endfor %}

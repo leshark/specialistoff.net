@@ -28,3 +28,8 @@ class DeviceDelete(Form):
 class Backup(Form):
     title = TextField('Название')
     backuptext = TextAreaField('Настройки')
+
+class BackupEdit(Form):
+    title = TextField('Название')
+    backuptext = TextAreaField('Настройки')
+    comment = TextAreaField('Комментарии')

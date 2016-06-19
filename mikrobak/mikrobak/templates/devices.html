@@ -3,14 +3,22 @@
 <div class="panel panel-default">
 <div class="panel-heading">Список устройств</div>
 <div class="panel-body">
+
+<div class="input-group">
+Отобразить на странице не более <select class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>
+</div>
+
+<hr />
 {% for item in pagedata['devices'] %}
 <div class="panel panel-default" style="width: 24%; min-width: 200px; float: left; margin-left: 5px;">
-<div class="panel-heading"><a href="/device/{{ item.id }}">{{ item.name }}</a></div>
-<div class="panel-body">
+<div class="panel-heading">
+<a href="/device/{{ item.id }}">{{ item.name }}</a>
 <div style="float: right;">
     <a href="/device/{{ item.id }}/edit"><img src="/static/edit.png" width="20px"/></a>
     <a href="/device/{{ item.id }}/delete"><img src="/static/delete.png" width="20px"/></a>
-</div><br />
+</div>
+</div>
+<div class="panel-body">
 Количество: {{ item.backups|length }}
 </div>
 </div>

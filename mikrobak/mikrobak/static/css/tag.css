@@ -1,0 +1,51 @@
+.tagstyle {
+    border-color: #e2e2e2;
+    display: inline-block;
+    padding: .2em .5em;
+    margin: 2px 2px 2px 0;
+    font-size: 13px;
+    line-height: 1em;
+    white-space: nowrap;
+    text-decoration: none;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 1em;
+    padding-left: 1.5em;
+    padding-right: .8em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    position: relative;
+}
+.tagstyle:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    content: "";
+    margin: auto;
+    vertical-align: inherit;
+    margin-right: 5px;
+    margin-left: -1.1em;
+    width: 10px;
+    height: 10px;
+    background-color: #FFFFFF;
+    border-radius: 1em;
+    line-height: 1em;
+}
+.blue {
+    background-color: blue;
+    color: white;
+}
+.red {
+    background-color: red;
+    color: white;
+}
+.tag-silver {
+    background-color: #e8e8ff;
+    color: #505050;
+}
+.tag-silver:hover {
+    background-color: #d0d0ff;
+    color: #505050;
+}

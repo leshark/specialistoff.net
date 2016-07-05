@@ -3,8 +3,8 @@
 <div class="panel panel-default">
 <div class="panel-heading">
 <div style="float: right;">
-    <a href="/device/{{ pagedata['backup'].id }}/edit"><img src="/static/edit.png" width="20px"/></a>
-    <a href="/device/{{ pagedata['backup'].id }}/delete"><img src="/static/delete.png" width="20px"/></a>
+    <a class="btn btn-default" href="/backup/{{ pagedata['backup'].id }}/edit"><i class="fa fa-edit"></i></a>
+    <a class="btn btn-danger" href="/backup/{{ pagedata['backup'].id }}/delete"><i class="fa fa-remove"></i></a>
 </div>
 Конфигурация {{ pagedata['backup'].id }} от {{ pagedata['backup'].created.strftime('%Y-%m-%d %H-%M') }}<br />
 Устройство: <a href="/device/{{ pagedata['backup'].device_id }}">{{ pagedata['backup'].device.name }}</a>

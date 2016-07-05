@@ -1,0 +1,37 @@
+{% extends "skeleton.html" %}
+{% block body %}
+<div class="panel panel-default">
+<div class="panel-heading">
+Редактирование конфигурации {{ pagedata['backup'].title }}<br />
+Устройство: <a href="/device/{{ pagedata['backup'].device_id }}">{{ pagedata['backup'].device.name }}</a>
+</div>
+
+<div class="panel-body">
+<form method="post" action="/backup/{{ pagedata['backup'].id }}/edit">
+
+<div class="form-group">
+{{ pagedata['form'].title.label }}
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].title(class="form-control") }}
+</div>
+</div>
+
+<div class="form-group">
+{{ pagedata['form'].backuptext.label }}
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].backuptext(class="form-control", style="font-family: 'Consolas', 'Menlo', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;", rows=20) }}
+</div>
+</div>
+
+<div class="form-group">
+{{ pagedata['form'].comment.label }}
+<div style="margin-bottom: 25px">
+{{ pagedata['form'].comment(class="form-control") }}
+</div>
+</div>
+
+<button class="btn btn-success">Сохранить</button>
+</form>
+</div>
+</div>
+{% endblock %}

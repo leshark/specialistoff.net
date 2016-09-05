@@ -1,0 +1,64 @@
+{% extends "skeleton.html" %}
+{% block body %}
+
+<div class="panel panel-default">
+<div class="panel-heading">Список конфигураций</div>
+<div class="panel-body">
+
+<table class="table">
+<tr><th>#</th><th>Название</th><th>Устройство</th><th>Дата</th><th>Действия</th></tr>
+<form action="/diff" method="post">
+{% for item in pagedata['backups'] %}
+<tr>
+<td>
+<input type="checkbox" name="backup" value="{{ item.id }}"/>
+<a href="/backup/{{ item.id }}">{{ item.id }}</a>
+</td>
+
+<td>
+<a href="/backup/{{ item.id }}">{{ item.title }}</a>
+</td>
+
+<td><a href="/device/{{ item.device.id }}">{{ item.device.name }}</a></td>
+
+<td>{{ item.created.strftime('%Y-%m-%d %H-%M') }}</td>
+
+<td>
+<a class="btn btn-default btn-xs" href="/backup/{{ item.id }}/edit"><i class="fa fa-edit"></i></a>
+<a class="btn btn-danger btn-xs" href="/backup/{{ item.id }}/delete"><i class="fa fa-remove"></i></a>
+</td>
+</tr>
+{% endfor %}
+</table>
+
+<button class="btn btn-success">Сравнить</button>
+
+</div>
+
+<div class="panel-footer" style="text-align: center;">
+{% if pagedata['pagination'].pages == 1 %}
+<div class="btn btn-default">Увы! Всё уместилось на одной странице</div>
+{% else %}
+
+{% if pagedata['pagination'].has_prev %}
+<a class="btn btn-default pull-left" href="/backups/{{ pagedata['pagination'].page-1 }}">Предыдущая</a>
+{% endif %}
+
+{% for page in pagedata['pagination'].iter_pages() %}
+
+{% if page %}
+<a class="btn btn-default" href="/backups/{{ page }}">{{ page }}</a>
+{% else %}
+<div class="btn btn-default">...</div>
+{% endif %}
+
+{% endfor %}
+
+{% if pagedata['pagination'].has_next %}
+<a class="btn btn-default pull-right" href="/backups/{{ pagedata['pagination'].page+1 }}">Следующая</a>
+{% endif %}
+
+{% endif %}
+</div>
+</div>
+{% endblock %}

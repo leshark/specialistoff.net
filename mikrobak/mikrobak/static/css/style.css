@@ -2,15 +2,34 @@ body {
     padding-left: 200px important;
 }
 .wrapper {
-    margin-left: 250px;
+    margin-left: 200px;
     margin-bottom: 20px;
 }
 .sidebar-left {
     float:left;
     width: 200px;
     margin-bottom: 20px;
+    padding: 5px;
 }
 .silver {
     background: #3030A0;
     background: linear-gradient(#fcfcfc, #e5e5e5, #e0e0e0);
 }
+
+/* Кнопка Наверх */
+.scrollToTop{
+    text-align:center; 
+    font-weight: bold;
+    text-decoration: none;
+    position:fixed;
+    bottom:30px;
+    left:10px;
+    display: none;
+}
+.scrollToTop:hover{
+    text-decoration:none;
+}
+.scrollToTop .panel{
+    margin-bottom: 0;
+}
+/* Кнопка Наверх */

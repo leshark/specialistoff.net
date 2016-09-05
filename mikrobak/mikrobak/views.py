@@ -14,10 +14,25 @@ from paramiko import AutoAddPolicy
 
 from mikrobak import app
 from flask import Flask, render_template, request, escape, redirect, jsonify
-from models import *
+
+# RemiZOffAlex
+import lib
+import models
 import forms
 
 import difflib
+
+
+"""
+Постраничный вывод
+"""
+def getpage(query, page=1, page_size=10):
+    if page_size:
+        query = query.limit(page_size)
+    if page: 
+        query = query.offset((page-1)*page_size)
+    return query
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -27,11 +42,56 @@ def index():
     body = render_template('index.html', pagedata=pagedata)
     return body
 
+
+@app.route('/backups', defaults={'page': 1})
+@app.route('/backups/<int:page>')
+def backups(page):
+    pagedata = {}
+    pagedata['backups'] = models.db_session.query(models.Backup).order_by(models.Backup.created.desc())
+    pagedata['pagination'] = lib.Pagination(
+        page,
+        10,
+        pagedata['backups'].count())
+    pagedata['backups'] = getpage(pagedata['backups'], page)
+    pagedata['backups'] = pagedata['backups'].all()
+    body = render_template('backups.html', pagedata=pagedata)
+    return body
+
+
+@app.route('/backup/<int:id>')
+def backupview(id):
+    pagedata = {}
+    pagedata['backup'] = models.db_session.query(models.Backup).filter(models.Backup.id == id).first()
+    body = render_template('backupview.html', pagedata=pagedata)
+    return body
+
+
+@app.route('/backup/<int:id>/edit', methods=['GET', 'POST'])
+def backupedit(id):
+    pagedata = {}
+    pagedata['form'] = forms.BackupEdit(request.form)
+    pagedata['backup'] = models.db_session.query(models.Backup).filter(models.Backup.id == id).first()
+    if request.method == 'POST':
+        if pagedata['backup']:
+            pagedata['backup'].title = escape(pagedata['form'].title.data)
+            pagedata['backup'].text = escape(pagedata['form'].backuptext.data)
+            pagedata['backup'].comment = escape(pagedata['form'].comment.data)
+        db_session.commit()
+    else:
+        if pagedata['backup']:
+            pagedata['form'] = forms.BackupEdit(request.form,
+                data={'title': pagedata['backup'].title,
+                    'backuptext': pagedata['backup'].text,
+                    'comment': pagedata['backup'].comment})
+    body = render_template('backupedit.html', pagedata=pagedata)
+    return body
+
+
 @app.route('/devices', methods=['GET'])
 def devices():
     pagedata = {}
     pagedata['title'] = "Список устройств"
-    pagedata['devices'] = db_session.query(Device).order_by(Device.name).all()
+    pagedata['devices'] = models.db_session.query(models.Device).order_by(models.Device.name).all()
     body = render_template('devices.html', pagedata=pagedata)
     return body
 
@@ -41,7 +101,7 @@ def deviceadd():
     pagedata['title'] = "Добавление нового устройства"
     pagedata['form'] = forms.DeviceNew(request.form)
     if request.method == 'POST':
-        newdev = Device(name=escape(pagedata['form'].devicename.data),
+        newdev = models.Device(name=escape(pagedata['form'].devicename.data),
             ip=escape(pagedata['form'].ip.data),
             username=escape(pagedata['form'].username.data),
             password=escape(pagedata['form'].password.data))
@@ -57,7 +117,7 @@ def deviceadd():
 def deviceedit(id):
     pagedata = {}
     pagedata['form'] = forms.DeviceEdit(request.form)
-    pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
+    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
     if request.method == 'POST':
         if pagedata['device']:
             pagedata['device'].name = escape(pagedata['form'].devicename.data)
@@ -80,7 +140,7 @@ def deviceedit(id):
 def devicedelete(id):
     pagedata = {}
     pagedata['form'] = forms.DeviceDelete(request.form)
-    pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
+    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
     if request.method == 'POST':
         if pagedata['device']:
             if pagedata['form'].delete.data == 'yes':
@@ -94,9 +154,9 @@ def devicedelete(id):
 @app.route('/device/<int:id>')
 def device(id):
     pagedata = {}
-    pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
+    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
     if pagedata['device']:
-        pagedata['backups'] = db_session.query(Backup).filter(Backup.device_id == id).all()
+        pagedata['backups'] = models.db_session.query(models.Backup).filter(models.Backup.device_id == id).all()
     body = render_template('device.html', pagedata=pagedata)
     return body
 
@@ -104,14 +164,14 @@ def device(id):
 def backup(id):
     pagedata = {}
     pagedata['form'] = forms.Backup(request.form)
-    pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
+    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
     body = render_template('backup.html', pagedata=pagedata)
     return body
 
 @app.route('/device/<int:id>/backupdl', methods=['POST'])
 def getbackup(id):
     pagedata = {}
-    pagedata['device'] = db_session.query(Device).filter(Device.id == id).first()
+    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
     sshCli = SSHClient()
     sshCli.set_missing_host_key_policy(AutoAddPolicy())
     print(pagedata['device'].ip)
@@ -133,48 +193,46 @@ def getbackup(id):
 def save(id):
     pagedata = {}
     pagedata['form'] = forms.Backup(request.form)
-    device = db_session.query(Device).filter(Device.id == id).first()
-    backup = Backup(device_id=id,
+    device = models.db_session.query(models.Device).filter(models.Device.id == id).first()
+    backup = models.Backup(device_id=id,
         title=escape(request.form['title']),
         text=escape(request.form['backuptext']))
     db_session.add(backup)
     db_session.commit()
     return redirect('/device/'+str(id), code=302)
 
-@app.route('/backup/<int:id>')
-def backupview(id):
-    pagedata = {}
-    pagedata['backup'] = db_session.query(Backup).filter(Backup.id == id).first()
-    body = render_template('backupview.html', pagedata=pagedata)
-    return body
-
-@app.route('/backup/<int:id>/edit', methods=['GET', 'POST'])
-def backupedit(id):
-    pagedata = {}
-    pagedata['form'] = forms.BackupEdit(request.form)
-    pagedata['backup'] = db_session.query(Backup).filter(Backup.id == id).first()
-    if request.method == 'POST':
-        if pagedata['backup']:
-            pagedata['backup'].title = escape(pagedata['form'].title.data)
-            pagedata['backup'].text = escape(pagedata['form'].backuptext.data)
-            pagedata['backup'].comment = escape(pagedata['form'].comment.data)
-        db_session.commit()
-    else:
-        if pagedata['backup']:
-            pagedata['form'] = forms.BackupEdit(request.form,
-                data={'title': pagedata['backup'].title,
-                    'backuptext': pagedata['backup'].text,
-                    'comment': pagedata['backup'].comment})
-    body = render_template('backupedit.html', pagedata=pagedata)
-    return body
 
 @app.route('/diff', methods=['POST'])
 def diffbackup():
     pagedata = {}
     baklist = request.form.getlist('backup')
-    text1 = db_session.query(Backup).filter(Backup.id == baklist[0]).first()
-    text2 = db_session.query(Backup).filter(Backup.id == baklist[1]).first()
+    text1 = models.db_session.query(models.Backup).filter(models.Backup.id == baklist[0]).first()
+    text2 = models.db_session.query(models.Backup).filter(models.Backup.id == baklist[1]).first()
     pagedata['backups'] = [text1, text2]
     pagedata['diff'] = '\n'.join(list(difflib.unified_diff(text1.text.split("\n"), text2.text.split("\n"))))
     body = render_template('diffview.html', pagedata=pagedata)
     return body
+
+
+# noinspection PyUnusedLocal
+@app.errorhandler(404)
+def error_missing(exception):
+    pagedata = {}
+    error_message = "Не судьба..."
+    return render_template("error.html", error_code=404, error_message=error_message, pagedata=pagedata), 404
+
+
+# noinspection PyUnusedLocal
+@app.errorhandler(403)
+def error_unauthorized(exception):
+    pagedata = {}
+    error_message = "You are not authorized to view this page. Ensure you have the correct permissions."
+    return render_template("error.html", error_code=403, error_message=error_message, pagedata=pagedata), 403
+
+
+# noinspection PyUnusedLocal
+@app.errorhandler(500)
+def error_crash(exception):
+    pagedata = {}
+    error_message = "Вот незадача..."
+    return render_template("error.html", error_code=500, error_message=error_message, pagedata=pagedata), 500

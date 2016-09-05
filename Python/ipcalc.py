@@ -6,12 +6,19 @@ __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
 
+import re
+
 class IPCalcV4():
     def __init__(self, addr, cidr = None):
         overloads = addr.split('/')
         if len(overloads)>1:
             cidr = overloads[1]
             addr = overloads[0]
+        #mac_re = '^(?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})$'
+        #result = re.match(mac_re, addr)
+        #if not result:
+        #    raise ValueError('Значение не является IP адресом')
+
         self.addr = addr.split('.')
         self.cidr = int(cidr)
         self.calc()

@@ -1,27 +1,6 @@
 {% extends "skeleton.html" %}
 {% block body %}
-<script type="text/javascript">
-$(document).ready(function() {
-    $(".getbackup").click(function(event) {
-        var sendData = "";
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            contentType:"application/json; charset=utf-8",
-            url: "/device/{{ pagedata['device'].id }}/backupdl",
-            data: sendData,
-            success: function(result) {
-                $("#backuptext").text(result.settings);
-            },
-            error: function(msg) {
-                console.log("%s %s" ,xhr,type);
-                return false;
-            }
-        });
-        return false;
-    });
-});
-</script>
+
 <div class="panel panel-default">
 <div class="panel-heading">
 <a href="/device/{{ pagedata['device'].id }}">{{ pagedata['device'].name }}</a><br />
@@ -43,10 +22,11 @@ IP: {{ pagedata['device'].ip }}
 {{ pagedata['form'].backuptext(class="form-control", rows=16) }}
 </div>
 
-<button type="button" class="getbackup">Получить настройки с устройства</button>
-<button class="btn btn-success">Сохранить</button>
+<a class="btn btn-default" href="#" onclick="get_backup({{ pagedata['device'].id }})">Получить настройки с устройства</a>
+<button class="btn btn-success pull-right" type="submit">Сохранить</button>
 </form>
 <p>Ошибка: {{ pagedata['error'] }}</p>
 </div>
 </div>
+
 {% endblock %}

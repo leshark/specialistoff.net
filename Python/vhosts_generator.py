@@ -20,12 +20,8 @@ from jinja2 import Environment, FileSystemLoader
 templatedir = os.path.dirname(os.path.abspath(__file__)) + "/templates"
 templates = ['apache.vhosts.template', 'nginx.vhosts.template']
 
-data = [{'user': 'viktor',
-            'domains': ['sys-center.ru']},
-        {'user': 'eri',
-            'domains': ['eerie.su']},
-        {'user': 'remizoffalex',
-            'domains': ['remizoffalex.ru', 'specialistoff.net']}
+data = [{'user': 'remizoffalex',
+            'domains': ['remizoffalex.ru', 'specialistoff.net', 'wiki.specialistoff.net']}
     ]
 
 for item in data:

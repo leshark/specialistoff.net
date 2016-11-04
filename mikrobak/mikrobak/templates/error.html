@@ -1,0 +1,12 @@
+{% extends "skeleton.html" %}
+{% block body %}
+
+<div class="panel panel-danger">
+<div class="panel-heading">Ошибка {{ error_code }}</div>
+<p>{{ error_message }}</p>
+<p align="center"><img src="/static/{{ error_code }}.jpg" /></p>
+</div>
+</div>
+
+{% endblock %}
+

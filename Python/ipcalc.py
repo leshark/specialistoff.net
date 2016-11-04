@@ -23,6 +23,9 @@ class IPCalcV4():
         self.cidr = int(cidr)
         self.calc()
 
+        self.start = self._tobin(self.FirstIP)
+        self.end = self._tobin(self.LastIP)
+
     def __iter__(self):
         pass
 
@@ -133,3 +136,21 @@ class IPCalcV4():
         result.append("Количество адресов: %s" % (self.Addresses))
         result.append("Количество хостовых адресов: %s" % (self.Hosts))
         return '\n'.join(result)
+    # end __repr__
+
+    def _tobin(self, address):
+        """
+        Перевести в двоичный код
+        """
+        result = 0
+        for item in address.split('.'):
+            result = (result << 8) | int(item)
+        return result
+    # end _tobin
+
+    def __contains__(self, address):
+        """
+        Содержит ли подсеть указанный адрес
+        """
+        return self.start <= self._tobin(address) <= self.end
+    # end __contains__

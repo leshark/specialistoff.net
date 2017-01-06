@@ -5,12 +5,6 @@ __author__ = 'RemiZOffAlex'
 __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
-
-import os
-import sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-import logging
-logging.basicConfig(stream=sys.stderr)
+__url__ = 'http://remizoffalex.ru'
 
 from myapp import app as application

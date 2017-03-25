@@ -1,8 +1,8 @@
-auto eth0:{{ i }}
-{% if net.version == 'v4' %}iface eth0:{{ i }} inet static
+auto {{ iface }}:{{ i }}
+{% if net.version == 'v4' %}iface {{ iface }}:{{ i }} inet static
 	address {{ net.Address }}
 	netmask {{ net.Netmask }}
-{% elif net.version == 'v6' %}iface eth0:{{ i }} inet6 static
+{% elif net.version == 'v6' %}iface {{ iface }}:{{ i }} inet6 static
 	address {{ net.Address }}
 	netmask {{ net.Netmask }}
 {% endif %}

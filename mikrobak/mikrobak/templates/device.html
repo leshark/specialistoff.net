@@ -32,8 +32,9 @@ IP: {{ pagedata['device'].ip }}
 <td>{{ item.created.strftime('%Y-%m-%d %H-%M') }}</td>
 
 <td>
-<a class="btn btn-default" href="/backup/{{ item.id }}/edit"><i class="fa fa-edit"></i></a>
-<a class="btn btn-danger" href="/backup/{{ item.id }}/delete"><i class="fa fa-remove"></i></a>
+<a class="btn btn-default btn-xs" href="/backup/{{ item.id }}/download"><i class="fa fa-download"></i></a>
+<a class="btn btn-default btn-xs" href="/backup/{{ item.id }}/edit"><i class="fa fa-edit"></i></a>
+<a class="btn btn-danger btn-xs" href="/backup/{{ item.id }}/delete"><i class="fa fa-remove"></i></a>
 </td>
 </tr>
 {% endfor %}

@@ -13,7 +13,8 @@ from flask import (
     request,
     escape,
     redirect,
-    session
+    session,
+    Response
 )
 
 from . import bp_backup, forms
@@ -49,6 +50,18 @@ def backup_delete(id):
         return redirect('/device/' + str(device), code=302)
     body = render_template('backup_delete.html', pagedata=pagedata)
     return body
+
+
+@bp_backup.route('/<int:id>/download')
+def backup_download(id):
+    backup = models.db_session.query(
+        models.Backup
+    ).filter(
+        models.Backup.id==id
+    ).first()
+    if not backup:
+        abort(404)
+    return Response(backup.text, mimetype='text/plain')
 
 
 @bp_backup.route('/<int:id>/edit', methods=['GET', 'POST'])

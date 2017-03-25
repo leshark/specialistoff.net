@@ -67,7 +67,11 @@ def backups(page):
 def devices():
     pagedata = {}
     pagedata['title'] = "Список устройств"
-    pagedata['devices'] = models.db_session.query(models.Device).order_by(models.Device.name).all()
+    pagedata['devices'] = models.db_session.query(
+        models.Device
+    ).order_by(
+        models.Device.name
+    ).all()
     body = render_template('devices.html', pagedata=pagedata)
     return body
 
@@ -133,20 +137,31 @@ def devicedelete(id):
     body = render_template('device_delete.html', pagedata=pagedata)
     return body
 
+
 @app.route('/device/', defaults={'id': 0})
 @app.route('/device/<int:id>')
 def device(id):
     pagedata = {}
-    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
-    if pagedata['device']:
-        pagedata['backups'] = models.db_session.query(models.Backup).filter(models.Backup.device_id == id).all()
+    pagedata['device'] = models.db_session.query(
+        models.Device
+    ).filter(
+        models.Device.id==id
+    ).first()
+    if not pagedata['device']:
+        abort(404)
+    pagedata['backups'] = models.db_session.query(
+        models.Backup
+    ).filter(
+        models.Backup.device_id==id
+    ).all()
     body = render_template('device.html', pagedata=pagedata)
     return body
+
 
 @app.route('/device/<int:id>/backup')
 def backup(id):
     pagedata = {}
-    pagedata['form'] = forms.Backup(request.form)
+    pagedata['form'] = forms.BackupForm(request.form)
     pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
     body = render_template('backup.html', pagedata=pagedata)
     return body
@@ -175,7 +190,7 @@ def getbackup(id):
 @app.route('/device/<int:id>/save', methods=['POST'])
 def save(id):
     pagedata = {}
-    pagedata['form'] = forms.Backup(request.form)
+    pagedata['form'] = forms.BackupForm(request.form)
     device = models.db_session.query(models.Device).filter(models.Device.id == id).first()
     backup = models.Backup(device_id=id,
         title=escape(request.form['title']),

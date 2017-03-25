@@ -25,7 +25,7 @@ class DeviceEdit(Form):
 class DeviceDelete(Form):
     pass
 
-class Backup(Form):
+class BackupForm(Form):
     title = TextField('Название')
     backuptext = TextAreaField('Настройки')
 

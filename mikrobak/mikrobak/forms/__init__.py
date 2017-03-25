@@ -6,8 +6,8 @@ __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
 
-from .device import DeviceNew, DeviceEdit, DeviceDelete
+from .device import DeviceNew, DeviceEdit, DeviceDelete, BackupForm
 
 __all__ = [
-    'DeviceNew', 'DeviceEdit', 'DeviceDelete'
+    'DeviceNew', 'DeviceEdit', 'DeviceDelete', 'BackupForm'
 ]

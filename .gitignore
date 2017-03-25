@@ -1,10 +1,12 @@
+# Игнорировать байткод
 *.pyc
 *.pio
-__pycache__/
 **/__pycache__/
 
 # Каталог с данными
 **/data/
+**/config/
+**/logs/
 
 Python/graph.png
 *.rrd

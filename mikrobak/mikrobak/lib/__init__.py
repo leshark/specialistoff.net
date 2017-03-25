@@ -6,6 +6,6 @@ __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
 
-from lib.pagination import Pagination
+from .pagination import Pagination
 
 __all__ = ['Pagination']

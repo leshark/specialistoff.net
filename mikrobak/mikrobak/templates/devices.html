@@ -1,10 +1,11 @@
 {% extends "skeleton.html" %}
 {% block body %}
 <div class="panel panel-default">
-<div class="panel-heading">Список устройств</div>
+<div class="panel-heading">
+<a class="btn btn-success btn-xs pull-right" href="/device/add"><i class="fa fa-plus"></i> Добавить устройство</a>
+Список устройств</div>
 <div class="panel-body">
 
-<a class="btn btn-default" href="/device/add"><i class="fa fa-plus"></i> Добавить устройство</a>
 
 <table class="table">
 <tr><th>#</th><th>Название</th><th>Количество</th><th>Действия</th></tr>

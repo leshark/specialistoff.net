@@ -23,7 +23,7 @@ class DeviceEdit(Form):
     sn = TextField('Серийный номер')
 
 class DeviceDelete(Form):
-    delete = RadioField(choices=[('yes', 'Да, удалить'), ('no', 'Нет, не удалять')], default='no')
+    pass
 
 class Backup(Form):
     title = TextField('Название')

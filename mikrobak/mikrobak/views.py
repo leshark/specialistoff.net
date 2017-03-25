@@ -13,13 +13,18 @@ from paramiko import SSHClient
 from paramiko import AutoAddPolicy
 
 from mikrobak import app
-from flask import Flask, render_template, request, escape, redirect, jsonify
+from flask import (
+    Flask,
+    render_template,
+    request,
+    escape,
+    redirect,
+    jsonify,
+    abort
+)
 
 # RemiZOffAlex
-import lib
-import models
-import forms
-
+from . import lib, models, forms
 import difflib
 
 
@@ -29,7 +34,7 @@ import difflib
 def getpage(query, page=1, page_size=10):
     if page_size:
         query = query.limit(page_size)
-    if page: 
+    if page:
         query = query.offset((page-1)*page_size)
     return query
 
@@ -58,35 +63,6 @@ def backups(page):
     return body
 
 
-@app.route('/backup/<int:id>')
-def backupview(id):
-    pagedata = {}
-    pagedata['backup'] = models.db_session.query(models.Backup).filter(models.Backup.id == id).first()
-    body = render_template('backupview.html', pagedata=pagedata)
-    return body
-
-
-@app.route('/backup/<int:id>/edit', methods=['GET', 'POST'])
-def backupedit(id):
-    pagedata = {}
-    pagedata['form'] = forms.BackupEdit(request.form)
-    pagedata['backup'] = models.db_session.query(models.Backup).filter(models.Backup.id == id).first()
-    if request.method == 'POST':
-        if pagedata['backup']:
-            pagedata['backup'].title = escape(pagedata['form'].title.data)
-            pagedata['backup'].text = escape(pagedata['form'].backuptext.data)
-            pagedata['backup'].comment = escape(pagedata['form'].comment.data)
-        db_session.commit()
-    else:
-        if pagedata['backup']:
-            pagedata['form'] = forms.BackupEdit(request.form,
-                data={'title': pagedata['backup'].title,
-                    'backuptext': pagedata['backup'].text,
-                    'comment': pagedata['backup'].comment})
-    body = render_template('backupedit.html', pagedata=pagedata)
-    return body
-
-
 @app.route('/devices', methods=['GET'])
 def devices():
     pagedata = {}
@@ -107,8 +83,8 @@ def deviceadd():
             password=escape(pagedata['form'].password.data))
         if 'sn' in request.form.keys():
             newdev.serialnumber = escape(pagedata['form'].sn.data)
-        db_session.add(newdev)
-        db_session.commit()
+        models.db_session.add(newdev)
+        models.db_session.commit()
         return redirect('/devices', code=302)
     body = render_template('deviceadd.html', pagedata=pagedata)
     return body
@@ -118,36 +94,43 @@ def deviceedit(id):
     pagedata = {}
     pagedata['form'] = forms.DeviceEdit(request.form)
     pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
+    if not pagedata['device']:
+        abort(404)
     if request.method == 'POST':
-        if pagedata['device']:
-            pagedata['device'].name = escape(pagedata['form'].devicename.data)
-            pagedata['device'].ip = escape(pagedata['form'].ip.data)
-            pagedata['device'].username = escape(pagedata['form'].username.data)
-            pagedata['device'].password = escape(pagedata['form'].password.data)
-        db_session.commit()
+        pagedata['device'].name = escape(pagedata['form'].devicename.data)
+        pagedata['device'].ip = escape(pagedata['form'].ip.data)
+        pagedata['device'].username = escape(pagedata['form'].username.data)
+        pagedata['device'].password = escape(pagedata['form'].password.data)
+        models.db_session.commit()
+        return redirect('/devices', code=302)
     else:
-        if pagedata['device']:
-            pagedata['form'] = forms.DeviceEdit(request.form,
-                data={'devicename': pagedata['device'].name,
-                    'ip': pagedata['device'].ip,
-                    'username': pagedata['device'].username,
-                    'password': pagedata['device'].password,
-                    'sn': pagedata['device'].serialnumber})
-    body = render_template('deviceedit.html', pagedata=pagedata)
+        pagedata['form'] = forms.DeviceEdit(request.form,
+            data={'devicename': pagedata['device'].name,
+                'ip': pagedata['device'].ip,
+                'username': pagedata['device'].username,
+                'password': pagedata['device'].password,
+                'sn': pagedata['device'].serialnumber})
+    body = render_template('device_edit.html', pagedata=pagedata)
     return body
 
 @app.route('/device/<int:id>/delete', methods=['GET', 'POST'])
 def devicedelete(id):
     pagedata = {}
     pagedata['form'] = forms.DeviceDelete(request.form)
-    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
+    pagedata['device'] = models.db_session.query(
+        models.Device
+    ).filter(
+        models.Device.id==id
+    ).first()
+    if not pagedata['device']:
+        abort(404)
     if request.method == 'POST':
-        if pagedata['device']:
-            if pagedata['form'].delete.data == 'yes':
-                db_session.delete(pagedata['device'])
-                db_session.commit()
+        for item in pagedata['device'].backups:
+            models.db_session.delete(item)
+        models.db_session.delete(pagedata['device'])
+        models.db_session.commit()
         return redirect('/devices', code=302)
-    body = render_template('devicedeleteconfirm.html', pagedata=pagedata)
+    body = render_template('device_delete.html', pagedata=pagedata)
     return body
 
 @app.route('/device/', defaults={'id': 0})
@@ -181,7 +164,7 @@ def getbackup(id):
         password=pagedata['device'].password,
         look_for_keys=False)
     stdin, stdout, stderr = sshCli.exec_command('/export')
-    time.sleep(15)
+    time.sleep(25)
     sshCli.close()
     pagedata['settings'] = stdout.read().decode('utf-8')
     pagedata['error'] = stderr.read().decode('utf-8')
@@ -197,8 +180,8 @@ def save(id):
     backup = models.Backup(device_id=id,
         title=escape(request.form['title']),
         text=escape(request.form['backuptext']))
-    db_session.add(backup)
-    db_session.commit()
+    models.db_session.add(backup)
+    models.db_session.commit()
     return redirect('/device/'+str(id), code=302)
 
 
@@ -206,8 +189,16 @@ def save(id):
 def diffbackup():
     pagedata = {}
     baklist = request.form.getlist('backup')
-    text1 = models.db_session.query(models.Backup).filter(models.Backup.id == baklist[0]).first()
-    text2 = models.db_session.query(models.Backup).filter(models.Backup.id == baklist[1]).first()
+    text1 = models.db_session.query(
+        models.Backup
+    ).filter(
+        models.Backup.id==baklist[0]
+    ).first()
+    text2 = models.db_session.query(
+        models.Backup
+    ).filter(
+        models.Backup.id==baklist[1]
+    ).first()
     pagedata['backups'] = [text1, text2]
     pagedata['diff'] = '\n'.join(list(difflib.unified_diff(text1.text.split("\n"), text2.text.split("\n"))))
     body = render_template('diffview.html', pagedata=pagedata)

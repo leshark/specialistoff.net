@@ -10,7 +10,8 @@ import datetime
 from sqlalchemy import Table, Column, Boolean, Integer, ForeignKey, String, DateTime
 from sqlalchemy.orm import relationship
 
-from models import Base
+from . import Base
+
 
 class Device(Base):
     __tablename__ = "device"

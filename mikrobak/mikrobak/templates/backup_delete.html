@@ -1,0 +1,17 @@
+{% extends "skeleton.html" %}
+{% block body %}
+<div class="panel panel-default">
+<div class="panel-heading">
+Удаление конфигурации {{ pagedata['backup'].title }}<br />
+Устройство: <a href="/device/{{ pagedata['backup'].device_id }}">{{ pagedata['backup'].device.name }}</a>
+</div>
+
+<div class="panel-body">
+<form method="post" action="/backup/{{ pagedata['backup'].id }}/delete">
+
+<button class="btn btn-danger pull-right">Удалить</button>
+<a class="btn btn-success" href="/backup/{{ pagedata['backup'].id }}">Отменить</a>
+</form>
+</div>
+</div>
+{% endblock %}

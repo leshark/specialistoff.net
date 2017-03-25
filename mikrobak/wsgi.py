@@ -8,5 +8,3 @@ __email__ = 'remizoffalex@mail.ru'
 __url__ = 'http://remizoffalex.ru'
 
 from mikrobak import app as application
-
-application.run(debug = True, host= '0.0.0.0', port=5001)

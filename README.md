@@ -1,6 +1,8 @@
 ## Ссылки
-http://SpecialistOff.NET/
 
+* http://SpecialistOff.NET/
+* https://t.me/mikrotik_ru Русскоязычный чат MikroTik, Ubiquiti
+* https://t.me/specialistoffnet Официальная группа (чат) SpecialistOff.NET администраторов и программистов
 * http://wiki.specialistoff.net/
 
 ## Хранение резервных копий

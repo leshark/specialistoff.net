@@ -7,6 +7,14 @@ __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
 __url__ = 'http://remizoffalex.ru'
 
+"""
+Описание:
+    Получить список IP по списку хостов. На примере социальных сетей
+
+Требования:
+    dnspython
+"""
+
 import dns.resolver
 
 hosts = [

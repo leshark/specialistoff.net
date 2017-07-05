@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
 import random
@@ -7,12 +7,12 @@ def pwgen(length=15):
     """
     Генератор пароля
     """
-    keylist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    alphabet='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     password=[]
 
     while len(password) < length:
-        a_char = random.choice(keylist)
+        a_char = random.choice(alphabet)
         password.append(a_char)
     return ''.join(password)
 
-print pwgen()
+print(pwgen())

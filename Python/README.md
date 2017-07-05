@@ -11,6 +11,7 @@ iface eth0:0 inet static
         address 1.2.3.4
         netmask 255.255.0.0```
 
+* get_list_ip_by_list_hosts.py - Получить список IP по списку хостов. На примере социальных сетей
 * passgen.py - генератор пароля
 * pingmonitor.py - Мониторинг доступности ресурса с помощью утилит fping и rrdtool с построением графика
 * uploadtmplftp.py - генерирование файла по шаблону и загрузка данных на FTP сервер

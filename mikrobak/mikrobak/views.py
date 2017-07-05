@@ -5,6 +5,7 @@ __author__ = 'RemiZOffAlex'
 __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
+__url__ = 'http://remizoffalex.ru'
 
 import time
 import datetime
@@ -169,7 +170,11 @@ def backup(id):
 @app.route('/device/<int:id>/backupdl', methods=['POST'])
 def getbackup(id):
     pagedata = {}
-    pagedata['device'] = models.db_session.query(models.Device).filter(models.Device.id == id).first()
+    pagedata['device'] = models.db_session.query(
+        models.Device
+    ).filter(
+        models.Device.id==id
+    ).first()
     sshCli = SSHClient()
     sshCli.set_missing_host_key_policy(AutoAddPolicy())
     print(pagedata['device'].ip)

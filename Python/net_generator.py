@@ -20,6 +20,7 @@ import ipcalc
 
 from jinja2 import Environment, FileSystemLoader
 
+
 def generate4(os, listip, iface, templatedir, num=0):
     j2_env=Environment(loader=FileSystemLoader(templatedir),
                      trim_blocks=True)
@@ -74,6 +75,7 @@ def main():
                 ipv4list[i] = item + '/' + args.maskv4
         print(ipv4list)
         generate4(args.os, ipv4list, args.iface, args.tmpldir, args.num)
+
 
 if __name__ == "__main__":
     try:

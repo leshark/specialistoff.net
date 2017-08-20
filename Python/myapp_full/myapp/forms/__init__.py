@@ -6,7 +6,7 @@ __copyright__ = '(c) RemiZOffAlex'
 __license__ = 'MIT'
 __email__ = 'remizoffalex@mail.ru'
 
-from forms.users import LoginForm
+from .users import LoginForm
 
 __all__ = [
     'LoginForm'

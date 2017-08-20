@@ -1,9 +1,15 @@
 {% extends "skeleton.html" %}
 {% block body %}
 
-<div class="container">
+<div class="container-fluid">
+
+<div class="card">
+<div class="card-block">
 {{ pagedata['info'] }}<br />
-<a href="/login">Вход</a>
+<a class="btn btn-primary" href="/login">Вход</a>
+</div>
+</div>
+
 </div>
 
 {% endblock %}

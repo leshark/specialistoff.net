@@ -36,4 +36,4 @@ celery = Celery(app.name,
     include=['myapp.tasks'])
 celery.conf.update(app.config)
 
-import views
+from . import views

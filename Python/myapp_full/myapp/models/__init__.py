@@ -11,7 +11,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_utils import database_exists, create_database
 
-from myapp import app
+from .. import app
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True)
 if not database_exists(engine.url):
@@ -23,7 +23,7 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-from models.users import User
+from .users import User
 
 Base.metadata.create_all(engine)
 

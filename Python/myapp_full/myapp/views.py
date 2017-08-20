@@ -9,12 +9,12 @@ __email__ = 'remizoffalex@mail.ru'
 from myapp import app
 from flask import Flask, render_template, request
 
-import forms
-import models
+from . import forms, models
 
 @app.route('/', methods=['GET'])
 def index():
     pagedata = {}
+    pagedata['title'] = app.config['TITLE']
     pagedata['info'] = 'Привет мир!'
     body = render_template('index.html', pagedata=pagedata)
     return body

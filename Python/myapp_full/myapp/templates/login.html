@@ -1,19 +1,19 @@
 {% extends "skeleton.html" %}
 {% block body %}
 
-<div class="panel panel-default">
-<div class="panel-heading">Логин</div>
+<div class="card">
+<div class="card-header">Логин</div>
 
-<div class="panel-body">
+<div class="card-block">
 <form class="form-horizontal" action="/login" method="post" autocomplete="on">
 
 <div style="margin-bottom: 25px" class="input-group">
-<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
 {{ pagedata['form'].username(class="form-control", placeholder="Логин") }}
 </div>
 
 <div style="margin-bottom: 25px" class="input-group">
-<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+<span class="input-group-addon"><i class="fa fa-lock"></i></span>
 {{ pagedata['form'].password(class="form-control", placeholder="Пароль") }}
 </div>
 <input class="btn btn-success" type="submit" value="Вход" />

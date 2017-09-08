@@ -1,0 +1,22 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="card">
+<div class="card-header">
+<a class="btn btn-secondary btn-sm" href="/client/{{ pagedata['note'].client.id }}"><i class="fa fa-chevron-left"></i></a>
+<div class="pull-right">
+<a class="btn btn-secondary btn-sm" href="/note/{{ pagedata['note'].id }}/edit"><i class="fa fa-edit"></i></a>
+<a class="btn btn-outline-danger btn-sm" href="/note/{{ pagedata['note'].id }}/delete"><i class="fa fa-remove"></i></a>
+</div>
+Заметка по клиенту: {{ pagedata['note'].client.name }}</div>
+<div class="card-block">
+<h1>{{ pagedata['note'].title }}</h1>
+{{ pagedata['note'].text|safe }}
+</div>
+<div class="card-footer">
+    <div class="btn btn-secondary btn-sm"><i class="fa fa-calendar-o"></i> {{ pagedata['note'].created.strftime('%Y-%m-%d %H:%M') }}</div>
+    <a class="btn btn-secondary btn-sm" href="/user/{{ pagedata['note'].user.id }}"><i class="fa fa-user"></i> {{ pagedata['note'].user.name }}</a>
+</div>
+</div>
+
+{% endblock %}

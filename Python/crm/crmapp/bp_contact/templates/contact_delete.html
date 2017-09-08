@@ -1,0 +1,16 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="card">
+<div class="card-header">
+<a class="btn btn-secondary btn-sm" href="/client/{{ pagedata['contact'].client.id }}"><i class="fa fa-chevron-left"></i></a>
+Удалить контакт</div>
+<div class="card-block">
+<form action="/contact/{{ pagedata['contact'].id }}/delete" method="post" autocomplete="on">
+<p>Вы уверены, что хотите безвозвратно удалить контакт <b>{{ pagedata['contact'].contact_value }}</b> у клиента <b>{{ pagedata['contact'].client.name }}</b>?</p>
+<button class="btn btn-outline-danger pull-right">Удалить</button>
+</form>
+</div>
+</div>
+
+{% endblock %}

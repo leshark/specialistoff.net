@@ -1,0 +1,23 @@
+body {
+    background:#FFF;
+    color:#000;
+}
+a {
+    text-decoration: underline;
+    color:#00F;
+}
+pre {
+    border: 1px dotted #ccc;
+    padding: 5px;
+}
+code,
+kbd,
+pre,
+samp {
+    width: 99%;
+    font-family: "Liberation Mono", "Bitstream Vera Sans Mono", monospace;
+    font-size: 1em;
+    word-wrap: break-word;
+    overflow:  hidden;
+    white-space: pre-wrap;
+}

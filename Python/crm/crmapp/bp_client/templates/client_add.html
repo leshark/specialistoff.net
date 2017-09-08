@@ -1,0 +1,33 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="card">
+<div class="card-header">Новый клиент</div>
+<div class="card-block">
+<form action="/client/add" method="post" autocomplete="on">
+
+<div class="form-group">
+{{ pagedata['form'].name.label }}
+{{ pagedata['form'].name(class="form-control") }}
+</div>
+
+
+<div class="form-group">
+{{ pagedata['form'].description.label }}
+{{ pagedata['form'].description(class="form-control") }}
+<script>
+    CKEDITOR.replace( 'description', {
+        language: 'ru',
+        fillEmptyBlocks: false,
+        tabIndex: 4,
+        allowedContent: true
+    } );
+</script>
+</div>
+
+<button class="btn btn-outline-success">Отправить</button>
+</form>
+</div>
+</div>
+
+{% endblock %}

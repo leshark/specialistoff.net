@@ -1,0 +1,35 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="card">
+<div class="card-header">
+<a class="btn btn-secondary btn-sm" href="/client/{{ pagedata['client'].id }}"><i class="fa fa-chevron-left"></i></a>
+Добавить заметку</div>
+<div class="card-block">
+<form action="/client/{{ pagedata['client'].id }}/noteadd" method="post" autocomplete="on">
+
+<div class="form-group">
+{{ pagedata['form'].title.label }}
+{{ pagedata['form'].title(class="form-control") }}
+</div>
+
+
+<div class="form-group">
+{{ pagedata['form'].text.label }}
+{{ pagedata['form'].text(class="form-control") }}
+<script>
+    CKEDITOR.replace( 'text', {
+        language: 'ru',
+        fillEmptyBlocks: false,
+        tabIndex: 4,
+        allowedContent: true
+    } );
+</script>
+</div>
+
+<button class="btn btn-outline-success pull-right">Отправить</button>
+</form>
+</div>
+</div>
+
+{% endblock %}

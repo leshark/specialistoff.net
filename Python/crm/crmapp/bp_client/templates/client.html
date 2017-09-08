@@ -1,0 +1,73 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="card">
+<div class="card-header">
+<div class="pull-right">
+<a class="btn btn-secondary btn-sm" href="/client/{{ pagedata['client'].id }}/edit"><i class="fa fa-edit"></i></a>
+{% if pagedata['client'].trash %}
+<a class="btn btn-outline-success btn-sm" href="/client/{{ pagedata['client'].id }}/recovery"><i class="fa fa-plus"></i></a>
+{% else %}
+<a class="btn btn-outline-warning btn-sm" href="/client/{{ pagedata['client'].id }}/trash"><i class="fa fa-trash-o"></i></a>
+{% endif %}
+</div>
+Карточка клиента: {{ pagedata['client'].name }}</div>
+<div class="card-block">
+
+<div class="card">
+<div class="card-header">
+<a class="btn btn-outline-success btn-sm pull-right" href="/client/{{ pagedata['client'].id }}/contactadd"><i class="fa fa-plus"></i></a>
+Контактные данные</div>
+<div class="card-block">
+
+{% for contact in pagedata['client'].contacts %}
+<div class="btn-group btn-group-sm">
+{% if contact.contact_type=='phone' %}
+<div class="btn btn-secondary"><i class="fa fa-phone"></i> {{ contact.contact_value }}</div>
+{% elif contact.contact_type=='icq' %}
+<div class="btn btn-secondary">ICQ: {{ contact.contact_value }}</div>
+{% elif contact.contact_type=='skype' %}
+<div class="btn btn-secondary">Skype: {{ contact.contact_value }}</div>
+{% elif contact.contact_type=='email' %}
+<a class="btn btn-secondary" href="mailto:{{ contact.contact_value }}"><i class="fa fa-envelope-o"></i> {{ contact.contact_value }}</a>
+{% elif contact.contact_type=='telegram' %}
+<a class="btn btn-secondary" href="https://t.me/{{ contact.contact_value }}" target="_blank"><i class="fa fa-telegram"></i> {{ contact.contact_value }}</a>
+{% elif contact.contact_type=='url' %}
+<a class="btn btn-secondary" href="{{ contact.contact_value }}" target="_blank"><i class="fa fa-globe"></i> {{ contact.contact_value }}</a>
+{% endif %}
+<a class="btn btn-secondary" href="/contact/{{ contact.id }}/edit"><i class="fa fa-edit"></i></a>
+<a class="btn btn-outline-danger" href="/contact/{{ contact.id }}/delete"><i class="fa fa-remove"></i></a>
+</div>
+{% endfor %}
+
+</div>
+</div>
+
+<div class="card mt-3">
+<div class="card-header">
+<a class="btn btn-outline-success btn-sm pull-right" href="/client/{{ pagedata['client'].id }}/noteadd"><i class="fa fa-plus"></i></a>
+Заметки по клиенту</div>
+<div class="card-block">
+
+<div class="row">
+{% for note in pagedata['notes'] %}
+<div class="col-md-6">
+<div class="card card-outline-warning">
+    <div class="card-block">
+        <a class="btn btn-secondary btn-sm pull-right" href="/note/{{ note.id }}"><i class=" fa fa-eye"></i></a>
+        <p>{{ note.title }}</p>
+        <small><i class="fa fa-calendar-o"></i> {{ note.created.strftime('%Y-%m-%d %H:%M') }}
+        от <a href="/user/{{ note.user_id}}">{{ note.user.name }}</a></small>
+    </div>
+</div>
+</div>
+{% endfor %}
+</div> <!-- div class="row" -->
+
+</div>
+</div>
+
+</div>
+</div>
+
+{% endblock %}

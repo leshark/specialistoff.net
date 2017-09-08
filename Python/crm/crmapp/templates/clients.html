@@ -1,0 +1,35 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="card">
+<div class="card-header">Список клиентов</div>
+<div class="card-block">
+
+<div class="row">
+{% for client in pagedata['clients'] %}
+<div class="col-md-4 mt-3">
+
+<div class="card">
+<div class="card-block">
+<div class="pull-right">
+<a class="btn btn-secondary btn-sm" href="/client/{{ client.id }}/edit"><i class="fa fa-edit"></i></a>
+<a class="btn btn-warning btn-sm" href="/client/{{ client.id }}/trash"><i class="fa fa-trash"></i></a>
+</div>
+
+<p><a href="/client/{{ client.id }}" title="Карточка клиента: {{ client.name }}">{{ client.name }}</a></p>
+<small>Добавил <a href="/user/{{ client.user.id }}">{{ client.user.name }}</a> в {{ client.created.strftime('%Y-%m-%d') }}</small>
+</div>
+</div>
+
+</div> <!-- div class="col-md-4" -->
+{% endfor %}
+</div> <!-- div class="row" -->
+
+</div>
+
+<div class="card-footer text-center">
+{% include 'pagination.html' %}
+</div>
+</div>
+
+{% endblock %}

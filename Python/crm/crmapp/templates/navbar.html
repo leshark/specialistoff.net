@@ -1,0 +1,55 @@
+<div class="container-fluid mt-3">
+<div class="hidden-sm-down">
+
+<div class="btn-group">
+<a class="btn btn-secondary" href="/" title="Главная"><i class="fa fa-home"></i></a>
+<a class="btn btn-secondary" href="/clients" title="Клиенты"><i class="fa fa-users"></i></a>
+<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="/client/add" title="Добавить нового клиента"><i class="fa fa-plus"></i> Добавить нового клиента</a>
+</div>
+</div>
+
+<div class="pull-right">
+<a class="btn btn-secondary" href="/cabinet"><i class="fa fa-user"></i>{{ user }}</a>
+<a class="btn btn-outline-warning" href="/trash"><i class="fa fa-trash-o"></i></a>
+<a class="btn btn-secondary" href="/logout"><i class="fa fa-sign-out"></i></a>
+</div>
+
+<!--
+<div class="hidden-md-down">
+<div class="pull-right" style="col-md-3">
+<form action='/search' method='post'>
+<div class="input-group">
+<input class="form-control" name='search' type='search' value='{{ pagedata['search'] }}' placeholder="The Matrix has you..."/>
+<div class="input-group-btn">
+<button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+</div>
+</div>
+</form>
+</div>
+</div>
+-->
+
+</div> <!-- div class="hidden-md-down" -->
+
+
+<div class="hidden-md-up">
+<div class="btn-group">
+<a class="btn btn-secondary" href="/" title="Главная"><i class="fa fa-home"></i></a>
+<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="/clients" title="Клиенты">Клиенты</a>
+<a class="dropdown-item" href="/cabinet" title="Кабинет">Кабинет</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="/trash" title="Корзина">Корзина</a>
+</div>
+</div>
+
+
+<div class="pull-right">
+<a class="btn btn-secondary" href="/logout"><i class="fa fa-sign-out"></i></a>
+</div>
+</div> <!-- div class="hidden-md-up" -->
+
+</div>

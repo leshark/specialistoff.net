@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+    {% include 'header.html' %}
+<body>
+
+{% if session.logged_in %}
+{% include 'navbar.html' %}
+{% else %}
+{% include 'stub_demo.html' %}
+{% endif %}
+
+<div class="container-fluid mt-3">
+{% block content %}
+{% endblock %}
+</div>
+
+{% include 'footer.html' %}
+</body>
+</html>

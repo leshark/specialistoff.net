@@ -1,0 +1,30 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="card">
+<div class="card-header">Список удалённых клиентов</div>
+<div class="card-block">
+
+<table class="table">
+<tr><th>Клиент</th><th>Действия</th></tr>
+{% for client in pagedata['clients'] %}
+<tr>
+<td><p><a href="/client/{{ client.id }}" title="Карточка клиента: {{ client.name }}">{{ client.name }}</a></p>
+<small>Удалил <a href="/user/{{ client.trash.user.id }}">{{ client.trash.user.name }}</a> {{ client.trash.created.strftime('%Y-%m-%d') }}<small>
+</td>
+<td>
+<a class="btn btn-secondary btn-sm" href="/client/{{ client.id }}/edit"><i class="fa fa-edit"></i></a>
+<a class="btn btn-outline-success btn-sm" href="/client/{{ client.id }}/recovery"><i class="fa fa-plus"></i> Восстановить</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+
+</div>
+
+<div class="card-footer text-center">
+{% include 'pagination.html' %}
+</div>
+</div>
+
+{% endblock %}

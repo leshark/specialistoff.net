@@ -1,0 +1,23 @@
+{% if pagedata['pagination'].pages <= 1 %}
+<div class="btn btn-secondary">Увы! Всё уместилось на одной странице</div>
+{% else %}
+
+{% if pagedata['pagination'].has_prev %}
+<a class="btn btn-secondary pull-left" href="{{ pagedata['pagination'].url }}/{{ pagedata['pagination'].page-1 }}">Предыдущая</a>
+{% endif %}
+
+{% for page in pagedata['pagination'].iter_pages() %}
+
+{% if page %}
+<a class="btn btn-secondary" href="{{ pagedata['pagination'].url }}/{{ page }}">{{ page }}</a>
+{% else %}
+<div class="btn btn-secondary">...</div>
+{% endif %}
+
+{% endfor %}
+
+{% if pagedata['pagination'].has_next %}
+<a class="btn btn-secondary pull-right" href="{{ pagedata['pagination'].url }}/{{ pagedata['pagination'].page+1 }}">Следующая</a>
+{% endif %}
+
+{% endif %}

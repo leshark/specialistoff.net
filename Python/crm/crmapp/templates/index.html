@@ -1,0 +1,25 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="row">
+<div class="col-md-4 mt-3"><a class="btn btn-outline-success btn-block" href="/client/add"><i class="fa fa-plus"></i> Добавить клиента</a></div>
+<div class="col-md-4 mt-3"><a class="btn btn-secondary btn-block" href="/clients"><i class="fa fa-users"></i> Список клиентов</a></div>
+<div class="col-md-4 mt-3"><a class="btn btn-outline-info btn-block" href="/notes"><i class="fa fa-sticky-note-o"></i> Список заметок</a></div>
+</div>
+
+<div class="row mt-3">
+{% for note in pagedata['notes'] %}
+<div class="col-md-4 mt-3">
+<div class="card card-outline-warning">
+    <div class="card-block">
+        <a class="btn btn-secondary btn-sm pull-right" href="/client/{{ note.client.id }}">{{ note.client.name }}</a>
+        <p><a href="/note/{{ note.id }}">{{ note.title }}</a></p>
+        <small><i class="fa fa-calendar-o"></i> {{ note.created.strftime('%Y-%m-%d %H:%M') }}
+        от <a href="/user/{{ note.user_id}}">{{ note.user.name }}</a></small>
+    </div>
+</div>
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}
